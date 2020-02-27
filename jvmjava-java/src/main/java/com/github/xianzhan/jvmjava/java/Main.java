@@ -1,5 +1,7 @@
 package com.github.xianzhan.jvmjava.java;
 
+import com.github.xianzhan.jvmjava.java.classpath.Classpath;
+import com.github.xianzhan.jvmjava.java.classpath.Entry;
 import com.github.xianzhan.jvmjava.java.cmd.Argument;
 import com.github.xianzhan.jvmjava.java.flag.Flag;
 
@@ -47,6 +49,7 @@ public class Main {
         flag.boolVar(cmd::setVersionFlag, "-version", false, "print version and exit");
         flag.stringVar(cmd::setCpOption, "-classpath", "", "classpath");
         flag.stringVar(cmd::setCpOption, "-cp", "", "classpath");
+        flag.stringVar(cmd::setXjreOption, "-Xjre", "", "path to jre");
         flag.parse();
         args = flag.args();
         if (args.length > 0) {
@@ -57,10 +60,18 @@ public class Main {
     }
 
     private static void startJVM(Argument cmd) {
-        System.out.printf("classpath: %s class: %s args: %s",
-                cmd.getCpOption(),
-                cmd.getClazz(),
-                Arrays.toString(cmd.getArgs()));
+        Classpath cp = Classpath.parse(cmd.getXjreOption(), cmd.getCpOption());
+        System.out.printf("classpath: %s class:%s args:%s",
+                cp, cmd.getClazz(), Arrays.toString(cmd.getArgs()));
+        var className = cmd.getClazz()
+                // "\\\\" windows
+                .replaceAll("\\.", "\\\\");
+        Entry entry = cp.readClass(className);
+        if (entry.getError() != null) {
+            System.out.printf("Could not find or load main class %s\n", cmd.getClazz());
+            return;
+        }
+        System.out.printf("class data:%s\n", Arrays.toString(entry.getBytes()));
     }
 
     private static void printUsage() {

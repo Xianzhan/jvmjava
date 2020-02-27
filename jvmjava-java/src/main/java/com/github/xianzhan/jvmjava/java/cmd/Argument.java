@@ -11,6 +11,7 @@ public class Argument {
     private boolean  helpFlag;
     private boolean  versionFlag;
     private String   cpOption;
+    private String   XjreOption;
     private String   clazz;
     private String[] args;
 
@@ -52,5 +53,13 @@ public class Argument {
 
     public void setArgs(String[] args) {
         this.args = args;
+    }
+
+    public String getXjreOption() {
+        return XjreOption;
+    }
+
+    public void setXjreOption(String xjreOption) {
+        XjreOption = xjreOption;
     }
 }

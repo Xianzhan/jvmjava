@@ -1,5 +1,5 @@
 # Compiled class file
-*.class
+**/target
 
 # Log file
 *.log
@@ -15,7 +15,6 @@
 *.war
 *.nar
 *.ear
-*.zip
 *.tar.gz
 *.rar
 
