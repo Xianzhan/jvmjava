@@ -12,12 +12,12 @@ import org.junit.jupiter.api.Test;
 public class MainTest {
 
     @Test
-    public void main01() {
-        Main.main("-cp", ".", "com.github.xianzhan.jvmjava.java.Main", "arg1", "arg2");
+    public void testHelp() {
+        Main.main("-help");
     }
 
     @Test
-    public void main02() {
-        Main.main("-cp", "src\\test\\resources\\test\\com\\github\\xianzhan\\jvmjava\\java", "java.lang.Object");
+    public void testVersion() {
+        Main.main("-version");
     }
 }
