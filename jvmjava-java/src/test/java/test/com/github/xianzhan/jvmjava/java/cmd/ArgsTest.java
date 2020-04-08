@@ -26,7 +26,9 @@ public class ArgsTest {
 
     @Test
     public void testToString() {
-        Args args = Args.parseArgs("-cp", "--version");
+        Args args = Args.parseArgs("-cp", ".", "java.lang.Object");
         System.out.println(args);
+        System.out.println(args.getClasspath());
+        System.out.println(args.getMainClass());
     }
 }

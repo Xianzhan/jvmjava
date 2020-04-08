@@ -22,6 +22,10 @@ public class Main {
             return;
         }
 
+        launch(cmd);
+    }
+
+    private static void launch(Args cmd) {
 
     }
 }

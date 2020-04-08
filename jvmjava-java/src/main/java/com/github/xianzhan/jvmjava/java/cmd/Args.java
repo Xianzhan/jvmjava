@@ -23,6 +23,15 @@ public interface Args {
     boolean isHelp();
 
     /**
+     * Get class path
+     *
+     * @return class path
+     */
+    String getClasspath();
+
+    String getMainClass();
+
+    /**
      * Parse args into Args instances.
      *
      * @param args common line args
