@@ -10,6 +10,8 @@ import java.util.Objects;
  */
 public class ArrayUtils {
 
+    public static String[] EMPTY_STRING = {};
+
     @SafeVarargs
     public static <T> boolean anyContains(T[] arr, T... ele) {
         for (T t : ele) {
