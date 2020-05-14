@@ -1,6 +1,7 @@
 package com.github.xianzhan.jvmjava.java.util;
 
 import java.nio.file.Path;
+import java.util.StringJoiner;
 
 /**
  * @author xianzhan
@@ -22,7 +23,11 @@ public class PathUtils {
     /**
      * Path separator (":" on Unix, ";" on Windows)
      */
-    public static String PATH_SEPARATOR = System.getProperty("path.separator");
+    public final static String PATH_SEPARATOR = System.getProperty("path.separator");
+    /**
+     * Separator (On UNIX systems the value of this field is "/"; on Microsoft Windows systems it is "\")
+     */
+    public final static String SEPARATOR      = System.getProperty("file.separator");
 
     /**
      * Return absolute path
@@ -47,6 +52,18 @@ public class PathUtils {
 
         String lowerExtensionName = path.substring(path.length() - COMPRESS_LENGTH_LIMIT).toLowerCase();
         return DOT_JAR.equals(lowerExtensionName) || DOT_ZIP.equals(lowerExtensionName);
+    }
+
+    public static String join(String... path) {
+        if (ArrayUtils.isEmpty(path)) {
+            return "";
+        }
+
+        StringJoiner joiner = new StringJoiner(SEPARATOR);
+        for (String p : path) {
+            joiner.add(p);
+        }
+        return joiner.toString();
     }
 
     /**
