@@ -120,7 +120,7 @@ class CommonLine {
 
     private static class ArgsImpl implements Args {
 
-        private String[] cliArgs;
+        private final String[] cliArgs;
 
         private boolean  version;
         private boolean  help;

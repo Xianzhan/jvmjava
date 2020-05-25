@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -37,5 +38,9 @@ public class CollectionUtils {
 
     public static <K, V> HashMap<K, V> newHashMap() {
         return new HashMap<>(16);
+    }
+
+    public static <T> LinkedList<T> newLinkedList() {
+        return new LinkedList<>();
     }
 }
