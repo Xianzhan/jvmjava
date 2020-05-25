@@ -42,11 +42,13 @@ public interface Args {
     }
 
     static String helpInformation() {
-        return "Usage: java [-options] class [args...]\n" +
-               "    or java [-options] -jar jarfile [args...]\n" +
-               "\n" +
-               "options:\n" +
-               "       -help    Print this help\n" +
-               "       -version Print version\n";
+        return """
+                Usage: java [-options] class [args...]
+                    or java [-options] -jar jarfile [args...]
+
+                options:
+                       -help    Print this help
+                       -version Print version
+                """;
     }
 }
