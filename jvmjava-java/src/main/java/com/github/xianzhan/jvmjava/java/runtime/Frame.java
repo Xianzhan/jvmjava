@@ -9,7 +9,7 @@ package com.github.xianzhan.jvmjava.java.runtime;
 public class Frame {
 
     private       Frame        lower;
-    private       LocalVars    localVars;
+    private final LocalVars    localVars;
     private final OperandStack operandStack;
 
     public Frame(int maxLocals, int maxStack) {
@@ -19,5 +19,9 @@ public class Frame {
 
     public OperandStack operandStack() {
         return operandStack;
+    }
+
+    public LocalVars localVars() {
+        return localVars;
     }
 }
