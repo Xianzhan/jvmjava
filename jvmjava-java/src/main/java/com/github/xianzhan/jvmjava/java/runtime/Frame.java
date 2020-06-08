@@ -8,12 +8,16 @@ package com.github.xianzhan.jvmjava.java.runtime;
  */
 public class Frame {
 
-    private Frame        lower;
-    private LocalVars    localVars;
-    private OperandStack operandStack;
+    private       Frame        lower;
+    private       LocalVars    localVars;
+    private final OperandStack operandStack;
 
     public Frame(int maxLocals, int maxStack) {
         this.localVars = new LocalVars(maxLocals);
         this.operandStack = new OperandStack(maxLocals);
+    }
+
+    public OperandStack operandStack() {
+        return operandStack;
     }
 }
