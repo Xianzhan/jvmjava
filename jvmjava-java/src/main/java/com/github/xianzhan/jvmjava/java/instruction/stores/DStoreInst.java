@@ -20,4 +20,9 @@ public class DStoreInst implements Instruction {
         double v = frame.operandStack().popDouble();
         frame.localVars().setDouble(index, v);
     }
+
+    @Override
+    public int offset() {
+        return 2;
+    }
 }

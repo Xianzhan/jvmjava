@@ -20,4 +20,9 @@ public class AStoreInst implements Instruction {
         Object v = frame.operandStack().popRef();
         frame.localVars().setRef(index, v);
     }
+
+    @Override
+    public int offset() {
+        return 2;
+    }
 }

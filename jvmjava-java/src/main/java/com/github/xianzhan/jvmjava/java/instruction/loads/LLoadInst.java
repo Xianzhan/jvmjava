@@ -20,4 +20,9 @@ public class LLoadInst implements Instruction {
         long v = frame.localVars().getLong(index);
         frame.operandStack().pushLong(v);
     }
+
+    @Override
+    public int offset() {
+        return 2;
+    }
 }

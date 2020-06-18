@@ -20,4 +20,9 @@ public class FStoreInst implements Instruction {
         float v = frame.operandStack().popFloat();
         frame.localVars().setFloat(index, v);
     }
+
+    @Override
+    public int offset() {
+        return 2;
+    }
 }

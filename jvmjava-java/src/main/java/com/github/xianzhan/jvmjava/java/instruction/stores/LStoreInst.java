@@ -20,4 +20,9 @@ public class LStoreInst implements Instruction {
         long v = frame.operandStack().popLong();
         frame.localVars().setLong(index, v);
     }
+
+    @Override
+    public int offset() {
+        return 2;
+    }
 }

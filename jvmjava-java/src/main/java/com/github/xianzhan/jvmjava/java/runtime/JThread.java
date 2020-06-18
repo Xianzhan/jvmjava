@@ -6,7 +6,7 @@ package com.github.xianzhan.jvmjava.java.runtime;
  * @author xianzhan
  * @since 2020-05-24
  */
-public class Thread {
+public class JThread {
 
     /**
      * 程序计数器
@@ -18,7 +18,7 @@ public class Thread {
      */
     private final Stack<Frame> stack;
 
-    public Thread(int maxStackSize) {
+    public JThread(int maxStackSize) {
         this.pc = 0;
         this.stack = new Stack<>(maxStackSize);
     }

@@ -27,4 +27,9 @@ public class IIncInst implements Instruction {
         inc += value;
         localVars.setInt(index, inc);
     }
+
+    @Override
+    public int offset() {
+        return 3;
+    }
 }

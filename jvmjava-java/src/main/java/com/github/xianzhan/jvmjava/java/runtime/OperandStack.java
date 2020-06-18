@@ -76,4 +76,9 @@ public class OperandStack {
     public Slot popSlot() {
         return slots.pop();
     }
+
+    @Override
+    public String toString() {
+        return slots.toString();
+    }
 }

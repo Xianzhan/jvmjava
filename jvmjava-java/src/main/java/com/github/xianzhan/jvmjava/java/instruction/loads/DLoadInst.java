@@ -20,4 +20,9 @@ public class DLoadInst implements Instruction {
         double v = frame.localVars().getDouble(index);
         frame.operandStack().pushDouble(v);
     }
+
+    @Override
+    public int offset() {
+        return 2;
+    }
 }

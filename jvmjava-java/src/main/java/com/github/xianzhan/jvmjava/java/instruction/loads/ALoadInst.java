@@ -20,4 +20,9 @@ public class ALoadInst implements Instruction {
         Object v = frame.localVars().getRef(index);
         frame.operandStack().pushRef(v);
     }
+
+    @Override
+    public int offset() {
+        return 2;
+    }
 }

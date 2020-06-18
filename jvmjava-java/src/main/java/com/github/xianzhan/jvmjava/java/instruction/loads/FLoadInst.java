@@ -20,4 +20,9 @@ public class FLoadInst implements Instruction {
         float v = frame.localVars().getFloat(index);
         frame.operandStack().pushFloat(v);
     }
+
+    @Override
+    public int offset() {
+        return 2;
+    }
 }

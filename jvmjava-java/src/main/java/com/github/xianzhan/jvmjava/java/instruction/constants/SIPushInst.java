@@ -19,4 +19,9 @@ public class SIPushInst implements Instruction {
     public void execute(Frame frame) {
         frame.operandStack().pushInt(val);
     }
+
+    @Override
+    public int offset() {
+        return 3;
+    }
 }
