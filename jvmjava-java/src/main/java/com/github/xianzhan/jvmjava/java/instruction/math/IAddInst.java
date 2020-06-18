@@ -18,4 +18,9 @@ public class IAddInst implements Instruction {
         var ret = i1 + i2;
         operandStack.pushInt(ret);
     }
+
+    @Override
+    public String toString() {
+        return "iadd";
+    }
 }

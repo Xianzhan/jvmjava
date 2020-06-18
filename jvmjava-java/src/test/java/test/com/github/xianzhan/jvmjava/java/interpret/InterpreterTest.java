@@ -25,6 +25,25 @@ public class InterpreterTest {
      *         System.out.println(sum);
      *     }
      * }
+     *
+     * ====== Bytecode ======
+     *  0 iconst_0
+     *  1 istore_1
+     *  2 iconst_0
+     *  3 istore_2
+     *  4 iload_2
+     *  5 bipush 100
+     *  7 if_icmpgt 20 (+13)
+     * 10 iload_1
+     * 11 iload_2
+     * 12 iadd
+     * 13 istore_1
+     * 14 iinc 2 by 1
+     * 17 goto 4 (-13)
+     * 20 getstatic #7 <java/lang/System.out>
+     * 23 iload_1
+     * 24 invokevirtual #13 <java/io/PrintStream.println>
+     * 27 return
      */
     @Test
     public void testInterpret() throws IOException {

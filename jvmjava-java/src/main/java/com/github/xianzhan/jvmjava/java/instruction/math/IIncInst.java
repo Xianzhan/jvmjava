@@ -32,4 +32,9 @@ public class IIncInst implements Instruction {
     public int offset() {
         return 3;
     }
+
+    @Override
+    public String toString() {
+        return "iinc " + index + " by " + value;
+    }
 }

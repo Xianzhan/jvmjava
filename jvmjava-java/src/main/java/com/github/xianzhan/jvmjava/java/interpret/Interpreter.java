@@ -5,6 +5,8 @@ import com.github.xianzhan.jvmjava.java.instruction.Instruction;
 import com.github.xianzhan.jvmjava.java.runtime.Frame;
 import com.github.xianzhan.jvmjava.java.runtime.JThread;
 
+import java.util.Map;
+
 /**
  * 解释器
  *
@@ -17,7 +19,7 @@ public class Interpreter {
         var code = method.getCode();
         var maxLocals = code.maxLocals;
         var maxStack = code.maxStack;
-        var instructions = code.instructions;
+        var instructions = code.getInstructions();
 
         var thread = new JThread(1024);
         var frame = new Frame(thread, maxLocals, maxStack);
@@ -35,17 +37,19 @@ public class Interpreter {
         }
     }
 
-    private void loop(JThread thread, Instruction[] instructions) {
+    private void loop(JThread thread, Map<Integer, Instruction> instructions) {
         var frame = thread.popFrame();
+        int pc;
 
-        for (var inst : instructions) {
-            var pc = frame.getNextPC();
+        while (true) {
+            pc = frame.getNextPC();
             thread.setPc(pc);
 
-            inst.execute(frame);
-
+            var inst = instructions.get(pc);
             pc += inst.offset();
             frame.setNextPC(pc);
+
+            inst.execute(frame);
         }
     }
 }

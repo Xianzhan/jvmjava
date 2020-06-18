@@ -13,4 +13,9 @@ public class IStore1Inst implements Instruction {
         int v = frame.operandStack().popInt();
         frame.localVars().setInt(1, v);
     }
+
+    @Override
+    public String toString() {
+        return "istore_1";
+    }
 }

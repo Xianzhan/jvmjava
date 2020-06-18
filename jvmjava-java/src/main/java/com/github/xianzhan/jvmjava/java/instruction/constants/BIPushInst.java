@@ -24,4 +24,9 @@ public class BIPushInst implements Instruction {
     public int offset() {
         return 2;
     }
+
+    @Override
+    public String toString() {
+        return "bipush " + val;
+    }
 }

@@ -13,4 +13,9 @@ public class ILoad1Inst implements Instruction {
         int v = frame.localVars().getInt(1);
         frame.operandStack().pushInt(v);
     }
+
+    @Override
+    public String toString() {
+        return "iload_1";
+    }
 }

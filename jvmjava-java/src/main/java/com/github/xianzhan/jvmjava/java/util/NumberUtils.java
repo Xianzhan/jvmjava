@@ -56,4 +56,8 @@ public class NumberUtils {
         long l = low & MASK_INT;
         return h | l;
     }
+
+    public static String sign(int n) {
+        return n < 0 ? "-" : "+";
+    }
 }
