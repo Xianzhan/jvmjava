@@ -66,4 +66,19 @@ public class OperandStack {
     public Object popRef() {
         return slots.pop().ref;
     }
+
+    // ------ 栈指令 ------
+
+    public void pushSlot(Slot slot) {
+        slots.push(slot);
+    }
+
+    public Slot popSlot() {
+        return slots.pop();
+    }
+
+    @Override
+    public String toString() {
+        return slots.toString();
+    }
 }

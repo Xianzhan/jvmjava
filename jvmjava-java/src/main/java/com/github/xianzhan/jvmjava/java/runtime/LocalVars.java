@@ -2,6 +2,8 @@ package com.github.xianzhan.jvmjava.java.runtime;
 
 import com.github.xianzhan.jvmjava.java.util.NumberUtils;
 
+import java.util.Arrays;
+
 /**
  * 局部变量表
  *
@@ -65,5 +67,10 @@ public class LocalVars {
 
     public Object getRef(int index) {
         return slots[index].ref;
+    }
+
+    @Override
+    public String toString() {
+        return Arrays.toString(slots);
     }
 }

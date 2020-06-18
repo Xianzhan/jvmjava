@@ -13,6 +13,18 @@ public class NumberUtils {
     public static final int BIT_32 = 32;
 
     /**
+     * 31
+     * int 变量只有 32 位, 所以只取前 5 个比特就足够表示位移位数了
+     */
+    public static final int MASK_SH = 0x1F;
+
+    /**
+     * 63
+     * long 变量只有 64 位, 左移只取前 6 个比特就足够表示唯一位数了
+     */
+    public static final int MASK_LSH = 0x3F;
+
+    /**
      * 返回高位数字
      *
      * @param l long
@@ -43,5 +55,9 @@ public class NumberUtils {
         long h = (high & MASK_INT) << BIT_32;
         long l = low & MASK_INT;
         return h | l;
+    }
+
+    public static String sign(int n) {
+        return n < 0 ? "-" : "+";
     }
 }

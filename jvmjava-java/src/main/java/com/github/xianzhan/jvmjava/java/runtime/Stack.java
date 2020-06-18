@@ -35,4 +35,12 @@ public class Stack<E> {
     public E top() {
         return stack.peek();
     }
+
+    @Override
+    public String toString() {
+        return "Stack{" +
+               "maxSize=" + maxSize +
+               ", stack=" + stack +
+               '}';
+    }
 }

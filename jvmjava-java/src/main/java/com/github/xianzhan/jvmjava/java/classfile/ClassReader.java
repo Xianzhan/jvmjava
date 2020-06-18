@@ -24,10 +24,12 @@ import com.github.xianzhan.jvmjava.java.classfile.cp.NameAndType;
 import com.github.xianzhan.jvmjava.java.classfile.cp.StringCp;
 import com.github.xianzhan.jvmjava.java.classfile.cp.Utf8;
 import com.github.xianzhan.jvmjava.java.instruction.Instruction;
+import com.github.xianzhan.jvmjava.java.util.CollectionUtils;
 import com.github.xianzhan.jvmjava.java.util.IOUtils;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @author xianzhan
@@ -226,8 +228,27 @@ public class ClassReader {
         return new ExceptionTable(exceptions);
     }
 
-    private static Instruction[] readInstructions(byte[] byteCode, ConstantPool constantPool) {
-        return new Instruction[0];
+    private static Instruction[] readInstructions(byte[] byteCode, ConstantPool constantPool) throws IOException {
+        List<Instruction> instructions = CollectionUtils.newArrayList();
+        try (DataInputStream dis = IOUtils.newPaddingDataInputStream(byteCode)) {
+            while (dis.available() > 0) {
+                var opCode = dis.readUnsignedByte();
+
+                Instruction inst = null;
+                try {
+                    inst = InstructionReader.read(opCode, dis, constantPool);
+                } catch (UnsupportedOperationException e) {
+                    System.err.println("UnsupportedOperationException: " + e.getMessage());
+                }
+                if (inst == null) {
+                    System.err.println(Integer.toHexString(opCode));
+                    break;
+                }
+
+                instructions.add(inst);
+            }
+        }
+        return instructions.toArray(new Instruction[0]);
     }
 
     private static Interfaces readInterfaces(DataInputStream dis, int interfaceCount, ConstantPool constantPool) throws IOException {
