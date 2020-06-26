@@ -18,6 +18,10 @@ public class JThread {
      */
     private final Stack<Frame> stack;
 
+    public JThread() {
+        this(1024);
+    }
+
     public JThread(int maxStackSize) {
         this.pc = 0;
         this.stack = new Stack<>(maxStackSize);

@@ -29,4 +29,9 @@ public class IfEqInst implements Instruction {
     public int offset() {
         return 3;
     }
+
+    @Override
+    public String toString() {
+        return "ifeq";
+    }
 }

@@ -8,9 +8,15 @@ import com.github.xianzhan.jvmjava.java.runtime.Frame;
  * @since 2020-06-08
  */
 public class ALoad3Inst implements Instruction {
+
     @Override
     public void execute(Frame frame) {
-        Object v = frame.localVars().getRef(3);
+        var v = frame.localVars().getRef(3);
         frame.operandStack().pushRef(v);
+    }
+
+    @Override
+    public String toString() {
+        return "aload_3";
     }
 }

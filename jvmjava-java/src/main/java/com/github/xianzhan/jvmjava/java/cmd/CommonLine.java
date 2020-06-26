@@ -157,6 +157,11 @@ class CommonLine {
         }
 
         @Override
+        public String xJreOption() {
+            return "";
+        }
+
+        @Override
         public String getClasspath() {
             return classpath;
         }

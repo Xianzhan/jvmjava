@@ -22,6 +22,8 @@ public interface Args {
      */
     boolean isHelp();
 
+    String xJreOption();
+
     /**
      * Get class path
      *

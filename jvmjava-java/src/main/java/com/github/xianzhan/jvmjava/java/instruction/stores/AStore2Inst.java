@@ -8,9 +8,15 @@ import com.github.xianzhan.jvmjava.java.runtime.Frame;
  * @since 2020-06-08
  */
 public class AStore2Inst implements Instruction {
+
     @Override
     public void execute(Frame frame) {
-        Object v = frame.operandStack().popRef();
+        var v = frame.operandStack().popRef();
         frame.localVars().setRef(2, v);
+    }
+
+    @Override
+    public String toString() {
+        return "astore_2";
     }
 }

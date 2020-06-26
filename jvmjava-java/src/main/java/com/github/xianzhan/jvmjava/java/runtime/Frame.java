@@ -1,5 +1,7 @@
 package com.github.xianzhan.jvmjava.java.runtime;
 
+import com.github.xianzhan.jvmjava.java.runtime.heap.JMethod;
+
 /**
  * 栈帧
  *
@@ -12,12 +14,14 @@ public class Frame {
     private final LocalVars    localVars;
     private final OperandStack operandStack;
     private final JThread      thread;
-    private       int          nextPC;
+    private final JMethod      method;
+    private       int          nextPc;
 
-    public Frame(JThread thread, int maxLocals, int maxStack) {
+    public Frame(JThread thread, JMethod method) {
         this.thread = thread;
-        this.localVars = new LocalVars(maxLocals);
-        this.operandStack = new OperandStack(maxStack);
+        this.method = method;
+        this.localVars = new LocalVars(method.maxLocals);
+        this.operandStack = new OperandStack(method.maxStack);
     }
 
     public OperandStack operandStack() {
@@ -32,11 +36,15 @@ public class Frame {
         return thread;
     }
 
-    public int getNextPC() {
-        return nextPC;
+    public JMethod method() {
+        return method;
     }
 
-    public void setNextPC(int nextPC) {
-        this.nextPC = nextPC;
+    public int nextPc() {
+        return nextPc;
+    }
+
+    public void nextPc(int nextPc) {
+        this.nextPc = nextPc;
     }
 }

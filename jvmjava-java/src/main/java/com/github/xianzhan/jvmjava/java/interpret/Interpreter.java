@@ -1,9 +1,9 @@
 package com.github.xianzhan.jvmjava.java.interpret;
 
-import com.github.xianzhan.jvmjava.java.classfile.Method;
 import com.github.xianzhan.jvmjava.java.instruction.Instruction;
 import com.github.xianzhan.jvmjava.java.runtime.Frame;
 import com.github.xianzhan.jvmjava.java.runtime.JThread;
+import com.github.xianzhan.jvmjava.java.runtime.heap.JMethod;
 
 import java.util.Map;
 
@@ -15,18 +15,13 @@ import java.util.Map;
  */
 public class Interpreter {
 
-    public void interpret(Method method) {
-        var code = method.getCode();
-        var maxLocals = code.maxLocals;
-        var maxStack = code.maxStack;
-        var instructions = code.getInstructions();
-
-        var thread = new JThread(1024);
-        var frame = new Frame(thread, maxLocals, maxStack);
+    public void interpret(JMethod method) {
+        var thread = new JThread();
+        var frame = new Frame(thread, method);
         thread.pushFrame(frame);
 
         try {
-            loop(thread, instructions);
+            loop(thread, method.codeMap());
         } catch (Exception e) {
             String msg = """
                     LocalVars   : %s
@@ -42,13 +37,14 @@ public class Interpreter {
         int pc;
 
         while (true) {
-            pc = frame.getNextPC();
+            pc = frame.nextPc();
             thread.setPc(pc);
 
             var inst = instructions.get(pc);
             pc += inst.offset();
-            frame.setNextPC(pc);
+            frame.nextPc(pc);
 
+            System.out.println("pc:%2d inst:%s".formatted(pc, inst));
             inst.execute(frame);
         }
     }
