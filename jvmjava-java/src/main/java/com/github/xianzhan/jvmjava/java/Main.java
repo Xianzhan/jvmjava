@@ -1,6 +1,10 @@
 package com.github.xianzhan.jvmjava.java;
 
+import com.github.xianzhan.jvmjava.java.classloader.ClassLoader;
+import com.github.xianzhan.jvmjava.java.classpath.Classpath;
 import com.github.xianzhan.jvmjava.java.cmd.Args;
+import com.github.xianzhan.jvmjava.java.interpret.Interpreter;
+import com.github.xianzhan.jvmjava.java.util.PathUtils;
 
 /**
  * java application impl
@@ -26,6 +30,18 @@ public class Main {
     }
 
     private static void launch(Args cmd) {
+        var cp = Classpath.parse(cmd.xJreOption(), cmd.getClasspath());
+        var classLoader = new ClassLoader(cp);
 
+        var mainClassName = cmd.getMainClass();
+        var className = PathUtils.toClassfilePath(mainClassName);
+        var mainClass = classLoader.loadClass(className);
+        var mainMethod = mainClass.getMainMethod();
+        if (mainMethod != null) {
+            var interpreter = new Interpreter();
+            interpreter.interpret(mainMethod);
+        } else {
+            System.err.println("Main method not found in class %s\n".formatted(mainClassName));
+        }
     }
 }

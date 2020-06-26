@@ -1,5 +1,6 @@
 package com.github.xianzhan.jvmjava.java.runtime;
 
+import com.github.xianzhan.jvmjava.java.runtime.heap.JObject;
 import com.github.xianzhan.jvmjava.java.util.NumberUtils;
 
 import java.util.Arrays;
@@ -16,6 +17,10 @@ public class LocalVars {
 
     public LocalVars(int size) {
         this.slots = new Slot[size];
+    }
+
+    public LocalVars(Slot[] slots) {
+        this.slots = slots;
     }
 
     public void setInt(int index, int i) {
@@ -61,11 +66,11 @@ public class LocalVars {
         return Double.longBitsToDouble(l);
     }
 
-    public void setRef(int index, Object ref) {
+    public void setRef(int index, JObject ref) {
         slots[index] = new Slot(0, ref);
     }
 
-    public Object getRef(int index) {
+    public JObject getRef(int index) {
         return slots[index].ref;
     }
 

@@ -15,18 +15,13 @@ import com.github.xianzhan.jvmjava.java.classfile.attribute.LineNumberTable;
  * @author xianzhan
  * @since 2020-05-18
  */
-public class Method {
+public class Method extends Member {
 
-    public final int        accessFlags;
-    public final String     name;
-    public final Descriptor descriptor;
-    public final Attributes attributes;
-
-    public Method(int accessFlags, String name, Descriptor descriptor, Attributes attributes) {
-        this.accessFlags = accessFlags;
-        this.name = name;
-        this.descriptor = descriptor;
-        this.attributes = attributes;
+    public Method(int accessFlags,
+                  String name,
+                  Descriptor descriptor,
+                  Attributes attributes) {
+        super(accessFlags, name, descriptor, attributes);
     }
 
     public Code getCode() {
@@ -48,6 +43,10 @@ public class Method {
             }
         }
         return null;
+    }
+
+    public boolean isStatic() {
+        return (accessFlags & AccessFlags.ACC_STATIC) != 0;
     }
 
     @Override

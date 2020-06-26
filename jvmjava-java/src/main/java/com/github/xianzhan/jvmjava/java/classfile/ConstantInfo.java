@@ -21,9 +21,22 @@ public class ConstantInfo {
     public static final int CONSTANT_MethodType         = 16;
     public static final int CONSTANT_InvokeDynamic      = 18;
 
+    /**
+     * Constant pool tags
+     */
     public final int tag;
+
+    private ConstantPool cp;
 
     public ConstantInfo(int tag) {
         this.tag = tag;
+    }
+
+    public void cp(ConstantPool cp) {
+        this.cp = cp;
+    }
+
+    public ConstantPool cp() {
+        return cp;
     }
 }

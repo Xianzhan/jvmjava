@@ -151,8 +151,8 @@ public class ClassReader {
                     yield new Code(maxStack, maxLocals, instructions, exceptionTable, codeAttributes);
                 }
                 case Attribute.ConstantValue -> {
-                    IOUtils.readBytes(dis, attributeLength);
-                    yield new ConstantValue();
+                    var constantValueIndex = dis.readUnsignedShort();
+                    yield new ConstantValue(constantValueIndex);
                 }
                 case Attribute.Deprecated -> {
                     IOUtils.readBytes(dis, attributeLength);
@@ -289,6 +289,8 @@ public class ClassReader {
             if (info == null) {
                 throw new ClassFormatError("constant pool tag: " + tag);
             }
+            info.cp(constantPool);
+
             constantPool.infos[i] = info;
             if (tag == ConstantInfo.CONSTANT_Long || tag == ConstantInfo.CONSTANT_Double) {
                 i++;

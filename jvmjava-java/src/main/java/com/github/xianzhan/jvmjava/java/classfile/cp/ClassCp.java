@@ -14,4 +14,8 @@ public class ClassCp extends ConstantInfo {
         super(tag);
         this.nameIndex = nameIndex;
     }
+
+    public String name() {
+        return cp().getString(nameIndex);
+    }
 }

@@ -1,5 +1,6 @@
 package com.github.xianzhan.jvmjava.java.runtime;
 
+import com.github.xianzhan.jvmjava.java.runtime.heap.JObject;
 import com.github.xianzhan.jvmjava.java.util.NumberUtils;
 
 /**
@@ -59,11 +60,11 @@ public class OperandStack {
         return Double.longBitsToDouble(l);
     }
 
-    public void pushRef(Object ref) {
+    public void pushRef(JObject ref) {
         slots.push(new Slot(0, ref));
     }
 
-    public Object popRef() {
+    public JObject popRef() {
         return slots.pop().ref;
     }
 

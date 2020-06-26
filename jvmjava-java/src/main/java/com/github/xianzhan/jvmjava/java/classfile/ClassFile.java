@@ -1,5 +1,9 @@
 package com.github.xianzhan.jvmjava.java.classfile;
 
+import com.github.xianzhan.jvmjava.java.classfile.attribute.BootstrapMethods;
+
+import java.util.stream.Stream;
+
 /**
  * ClassFile {
  *     u4             magic;
@@ -19,6 +23,7 @@ package com.github.xianzhan.jvmjava.java.classfile;
  *     u2             attributes_count;
  *     attribute_info attributes[attributes_count];
  * }
+ *
  * @author xianzhan
  * @since 2020-04-09
  */
@@ -132,6 +137,41 @@ public class ClassFile {
         this.attributes = attributes;
     }
 
+    /**
+     * @return 例: java/lang/String
+     */
+    public String classname() {
+        return cpInfo.getClassName(thisClass);
+    }
+
+    /**
+     * @return 例: java/lang/Object
+     */
+    public String superClassname() {
+        if (superClass > 0) {
+            return cpInfo.getClassName(superClass);
+        }
+        return "";
+    }
+
+    /**
+     * @return 接口列表名称数组
+     */
+    public String[] interfaceNames() {
+        return Stream.of(interfaces.interfaces)
+                .map(Interface::getName)
+                .toArray(String[]::new);
+    }
+
+    public BootstrapMethods getBootstrapMethods() {
+        for (var attr : attributes.attributes) {
+            if (attr instanceof BootstrapMethods) {
+                return (BootstrapMethods) attr;
+            }
+        }
+        return null;
+    }
+
     public void printInfo() {
         String classInfo = """
                 version: %d.%d
@@ -158,5 +198,10 @@ public class ClassFile {
                 methods
         );
         System.out.println(classInfo);
+    }
+
+    @Override
+    public String toString() {
+        return "ClassFile-" + classname();
     }
 }

@@ -55,7 +55,7 @@ public class InterpreterTest {
         for (var method : methods.methods) {
             if ("main".equals(method.name)) {
                 Interpreter interpreter = new Interpreter();
-                interpreter.interpret(method);
+//                interpreter.interpret(method);
                 break;
             }
         }

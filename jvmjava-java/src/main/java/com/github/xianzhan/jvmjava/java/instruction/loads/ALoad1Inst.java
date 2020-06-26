@@ -10,7 +10,7 @@ import com.github.xianzhan.jvmjava.java.runtime.Frame;
 public class ALoad1Inst implements Instruction {
     @Override
     public void execute(Frame frame) {
-        Object v = frame.localVars().getRef(1);
+        var v = frame.localVars().getRef(1);
         frame.operandStack().pushRef(v);
     }
 }

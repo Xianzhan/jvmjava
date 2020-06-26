@@ -11,4 +11,9 @@ public class Descriptor {
     public Descriptor(String descriptor) {
         this.descriptor = descriptor;
     }
+
+    @Override
+    public String toString() {
+        return descriptor;
+    }
 }

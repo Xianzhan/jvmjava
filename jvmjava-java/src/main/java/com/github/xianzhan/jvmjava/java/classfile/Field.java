@@ -11,25 +11,17 @@ package com.github.xianzhan.jvmjava.java.classfile;
  * @author xianzhan
  * @since 2020-05-18
  */
-public class Field {
-
-    public final int        accessFlags;
-    public final String     name;
-    public final Descriptor descriptor;
-    public final Attributes attributes;
+public class Field extends Member {
 
     public Field(int accessFlags,
                  String name,
                  Descriptor descriptor,
                  Attributes attributes) {
-        this.accessFlags = accessFlags;
-        this.name = name;
-        this.descriptor = descriptor;
-        this.attributes = attributes;
+        super(accessFlags, name, descriptor, attributes);
     }
 
     @Override
     public String toString() {
-        return name;
+        return name + " " + descriptor;
     }
 }

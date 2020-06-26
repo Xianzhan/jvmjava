@@ -10,23 +10,22 @@ import java.util.Map;
 
 /**
  * Code_attribute {
- * u2 attribute_name_index;
- * u4 attribute_length;
- * u2 max_stack;
- * u2 max_locals;
- * u4 code_length;
- * u1 code[code_length];
- * u2 exception_table_length;
- * {
- * u2 start_pc;
- * u2 end_pc;
- * u2 handler_pc;
- * u2 catch_type;
- * } exception_table[exception_table_length];
- * u2 attributes_count;
- * attribute_info attributes[attributes_count];
+ *     u2 attribute_name_index;
+ *     u4 attribute_length;
+ *     u2 max_stack;
+ *     u2 max_locals;
+ *     u4 code_length;
+ *     u1 code[code_length];
+ *     u2 exception_table_length;
+ *     {
+ *         u2 start_pc;
+ *         u2 end_pc;
+ *         u2 handler_pc;
+ *         u2 catch_type;
+ *     } exception_table[exception_table_length];
+ *     u2 attributes_count;
+ *     attribute_info attributes[attributes_count];
  * }
- *
  * @author xianzhan
  * @since 2020-05-18
  */
@@ -62,7 +61,7 @@ public class Code extends Attribute {
         this.attributes = attributes;
     }
 
-    public Map<Integer, Instruction> getInstructions() {
+    public Map<Integer, Instruction> codeMap() {
         Map<Integer, Instruction> map = new LinkedHashMap<>(instructions.length);
         int pc = 0;
         for (var inst : instructions) {
