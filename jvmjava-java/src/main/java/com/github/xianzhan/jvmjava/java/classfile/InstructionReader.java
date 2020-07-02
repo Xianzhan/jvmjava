@@ -42,8 +42,14 @@ import com.github.xianzhan.jvmjava.java.instruction.constants.LdcInst;
 import com.github.xianzhan.jvmjava.java.instruction.constants.LdcWInst;
 import com.github.xianzhan.jvmjava.java.instruction.constants.NopInst;
 import com.github.xianzhan.jvmjava.java.instruction.constants.SIPushInst;
+import com.github.xianzhan.jvmjava.java.instruction.control.AReturnInst;
+import com.github.xianzhan.jvmjava.java.instruction.control.DReturnInst;
+import com.github.xianzhan.jvmjava.java.instruction.control.FReturnInst;
 import com.github.xianzhan.jvmjava.java.instruction.control.GotoInst;
+import com.github.xianzhan.jvmjava.java.instruction.control.IReturnInst;
+import com.github.xianzhan.jvmjava.java.instruction.control.LReturnInst;
 import com.github.xianzhan.jvmjava.java.instruction.control.LookupSwitchInst;
+import com.github.xianzhan.jvmjava.java.instruction.control.ReturnInst;
 import com.github.xianzhan.jvmjava.java.instruction.control.TableSwitchInst;
 import com.github.xianzhan.jvmjava.java.instruction.conversions.D2FInst;
 import com.github.xianzhan.jvmjava.java.instruction.conversions.D2IInst;
@@ -127,7 +133,9 @@ import com.github.xianzhan.jvmjava.java.instruction.references.CheckcastInst;
 import com.github.xianzhan.jvmjava.java.instruction.references.GetfieldInst;
 import com.github.xianzhan.jvmjava.java.instruction.references.GetstaticInst;
 import com.github.xianzhan.jvmjava.java.instruction.references.InstanceofInst;
+import com.github.xianzhan.jvmjava.java.instruction.references.InvokeinterfaceInst;
 import com.github.xianzhan.jvmjava.java.instruction.references.InvokespecialInst;
+import com.github.xianzhan.jvmjava.java.instruction.references.InvokestaticInst;
 import com.github.xianzhan.jvmjava.java.instruction.references.InvokevirtualInst;
 import com.github.xianzhan.jvmjava.java.instruction.references.NewInst;
 import com.github.xianzhan.jvmjava.java.instruction.references.PutfieldInst;
@@ -415,12 +423,12 @@ public class InstructionReader {
                 yield new LookupSwitchInst(lsOffset, lsDef, lsPairsCnt, lsMap);
             }
 
-            case ByteCodes.ireturn -> throw new UnsupportedOperationException("ireturn");
-            case ByteCodes.lreturn -> throw new UnsupportedOperationException("lreturn");
-            case ByteCodes.freturn -> throw new UnsupportedOperationException("freturn");
-            case ByteCodes.dreturn -> throw new UnsupportedOperationException("dreturn");
-            case ByteCodes.areturn -> throw new UnsupportedOperationException("areturn");
-            case ByteCodes.return_ -> throw new UnsupportedOperationException("return_");
+            case ByteCodes.ireturn -> new IReturnInst();
+            case ByteCodes.lreturn -> new LReturnInst();
+            case ByteCodes.freturn -> new FReturnInst();
+            case ByteCodes.dreturn -> new DReturnInst();
+            case ByteCodes.areturn -> new AReturnInst();
+            case ByteCodes.return_ -> new ReturnInst();
 
             case ByteCodes.getstatic -> new GetstaticInst(dis.readUnsignedShort());
             case ByteCodes.putstatic -> new PutstaticInst(dis.readUnsignedShort());
@@ -429,9 +437,14 @@ public class InstructionReader {
             case ByteCodes.putfield -> new PutfieldInst(dis.readUnsignedShort());
 
             case ByteCodes.invokevirtual -> new InvokevirtualInst(dis.readUnsignedShort());
-            case ByteCodes.invokespecial -> new InvokespecialInst(dis.readUnsignedShort());
-            case ByteCodes.invokestatic -> throw new UnsupportedOperationException("invokestatic");
-            case ByteCodes.invokeinterface -> throw new UnsupportedOperationException("invokeinterface");
+            case ByteCodes.invokespecial -> {
+                var index = dis.readUnsignedShort();
+                yield new InvokespecialInst(index);
+            }
+            case ByteCodes.invokestatic -> new InvokestaticInst(dis.readUnsignedShort());
+            case ByteCodes.invokeinterface -> new InvokeinterfaceInst(
+                    dis.readUnsignedShort(), dis.readUnsignedByte(), dis.readUnsignedByte()
+            );
             case ByteCodes.invokedynamic -> throw new UnsupportedOperationException("invokedynamic");
 
             case ByteCodes.new_ -> new NewInst(dis.readUnsignedShort());

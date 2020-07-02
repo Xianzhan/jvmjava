@@ -35,4 +35,9 @@ public class JObject {
     public boolean isInstanceOf(JClass clazz) {
         return clazz.isAssignableFrom(this.clazz);
     }
+
+    @Override
+    public String toString() {
+        return "JObject#" + clazz;
+    }
 }

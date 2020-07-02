@@ -12,4 +12,9 @@ public class CpClassRef extends CpSymRef {
         this.cp = cp;
         this.className = classInfo.name();
     }
+
+    @Override
+    public String toString() {
+        return "CpClassRef#" + clazz;
+    }
 }

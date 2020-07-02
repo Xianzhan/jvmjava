@@ -1,21 +1,20 @@
-package com.github.xianzhan.jvmjava.java.instruction.loads;
+package com.github.xianzhan.jvmjava.java.instruction.control;
 
 import com.github.xianzhan.jvmjava.java.instruction.Instruction;
 import com.github.xianzhan.jvmjava.java.runtime.Frame;
 
 /**
  * @author xianzhan
- * @since 2020-06-08
+ * @since 2020-06-29
  */
-public class ALoad0Inst implements Instruction {
+public class ReturnInst implements Instruction {
     @Override
     public void execute(Frame frame) {
-        var v = frame.localVars().getRef(0);
-        frame.operandStack().pushRef(v);
+        frame.thread().popFrame();
     }
 
     @Override
     public String toString() {
-        return "aload_0";
+        return "return_";
     }
 }

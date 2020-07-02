@@ -24,8 +24,11 @@ public class GetstaticInst implements Instruction {
         var fieldRef = (CpFieldRef) cp.getConstant(index).val;
         var field = fieldRef.resoledField();
         var clazz = field.clazz();
-
-        // todo init class
+        if (!clazz.initStarted()) {
+            frame.revertNextPc();
+            initClass(frame.thread(), clazz);
+            return;
+        }
 
         if (!field.isStatic()) {
             throw new IncompatibleClassChangeError(field.name());
@@ -41,23 +44,12 @@ public class GetstaticInst implements Instruction {
                     Symbol.DESCRIPTOR_BYTE,
                     Symbol.DESCRIPTOR_CHAR,
                     Symbol.DESCRIPTOR_SHORT,
-                    Symbol.DESCRIPTOR_INT: {
-                stack.pushInt(slots.getInt(slotIdx));
-                break;
+                    Symbol.DESCRIPTOR_INT -> stack.pushInt(slots.getInt(slotIdx));
+            case Symbol.DESCRIPTOR_FLOAT -> stack.pushFloat(slots.getFloat(slotIdx));
+            case Symbol.DESCRIPTOR_LONG -> stack.pushLong(slots.getLong(slotIdx));
+            case Symbol.DESCRIPTOR_DOUBLE -> stack.pushDouble(slots.getDouble(slotIdx));
+            default -> {
             }
-            case Symbol.DESCRIPTOR_FLOAT: {
-                stack.pushFloat(slots.getFloat(slotIdx));
-                break;
-            }
-            case Symbol.DESCRIPTOR_LONG: {
-                stack.pushLong(slots.getLong(slotIdx));
-                break;
-            }
-            case Symbol.DESCRIPTOR_DOUBLE: {
-                stack.pushDouble(slots.getDouble(slotIdx));
-                break;
-            }
-            default:
         }
     }
 

@@ -31,7 +31,7 @@ public class Main {
 
     private static void launch(Args cmd) {
         var cp = Classpath.parse(cmd.xJreOption(), cmd.getClasspath());
-        var classLoader = new ClassLoader(cp);
+        var classLoader = new ClassLoader(cp, cmd.isVerboseClassFlag());
 
         var mainClassName = cmd.getMainClass();
         var className = PathUtils.toClassfilePath(mainClassName);
@@ -39,7 +39,7 @@ public class Main {
         var mainMethod = mainClass.getMainMethod();
         if (mainMethod != null) {
             var interpreter = new Interpreter();
-            interpreter.interpret(mainMethod);
+            interpreter.interpret(mainMethod, cmd.isVerboseInstFlag());
         } else {
             System.err.println("Main method not found in class %s\n".formatted(mainClassName));
         }

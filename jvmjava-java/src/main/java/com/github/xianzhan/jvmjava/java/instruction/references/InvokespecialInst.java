@@ -2,6 +2,12 @@ package com.github.xianzhan.jvmjava.java.instruction.references;
 
 import com.github.xianzhan.jvmjava.java.instruction.Instruction;
 import com.github.xianzhan.jvmjava.java.runtime.Frame;
+import com.github.xianzhan.jvmjava.java.runtime.heap.CpMethodRef;
+import com.github.xianzhan.jvmjava.java.util.Symbol;
+
+import java.util.Objects;
+
+import static com.github.xianzhan.jvmjava.java.runtime.heap.CpMethodRef.lookupMethodInClass;
 
 /**
  * Invoke instance method;
@@ -20,10 +26,47 @@ public class InvokespecialInst implements Instruction {
 
     @Override
     public void execute(Frame frame) {
-        // todo
-        var stack = frame.operandStack();
-        var ref = stack.popRef();
-        System.out.println(ref);
+        var currentClass = frame.method().clazz();
+        var cp = currentClass.constantPool();
+        var methodRef = (CpMethodRef) cp.getConstant(index).val;
+        var resolvedClass = methodRef.resolvedClass();
+        var resolvedMethod = methodRef.resolvedMethod();
+        if (Symbol.METHOD_INIT.equals(resolvedMethod.name()) && !Objects.equals(resolvedMethod.clazz(), resolvedClass)) {
+            throw new NoSuchMethodError();
+        }
+        if (resolvedMethod.isStatic()) {
+            throw new IncompatibleClassChangeError();
+        }
+
+        var operandStack = frame.operandStack();
+        var count = resolvedMethod.argSlotCount();
+        var ref = operandStack.getRefFromTop(count - 1);
+        // if (ref == null) NullPointerException
+        if (ref != null) {
+            if (resolvedMethod.isProtected() &&
+                resolvedMethod.clazz().isSuperClassOf(currentClass) &&
+                !Objects.equals(resolvedMethod.clazz().getPackageName(), currentClass.getPackageName()) &&
+                !Objects.equals(ref.clazz(), currentClass) &&
+                !ref.clazz().isSubClassOf(currentClass)) {
+                throw new IllegalAccessError();
+            }
+        }
+
+        var methodToBeInvoked = resolvedMethod;
+        if (currentClass.isSuper() &&
+            resolvedClass.isSuperClassOf(currentClass) &&
+            !Symbol.METHOD_INIT.equals(resolvedMethod.name())) {
+
+            methodToBeInvoked = lookupMethodInClass(
+                    currentClass.superClass, methodRef.name(), methodRef.descriptor()
+            );
+        }
+
+        if (methodToBeInvoked == null || methodToBeInvoked.isAbstract()) {
+            throw new AbstractMethodError();
+        }
+
+        invokeMethod(frame, methodToBeInvoked);
     }
 
     @Override

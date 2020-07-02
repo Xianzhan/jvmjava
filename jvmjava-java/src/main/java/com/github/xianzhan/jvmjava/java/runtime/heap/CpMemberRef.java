@@ -27,4 +27,9 @@ public class CpMemberRef extends CpSymRef {
     public String descriptor() {
         return descriptor;
     }
+
+    @Override
+    public String toString() {
+        return "CpMemberRef#" + name + descriptor;
+    }
 }

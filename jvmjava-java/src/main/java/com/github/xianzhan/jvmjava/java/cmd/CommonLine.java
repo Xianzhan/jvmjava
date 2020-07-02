@@ -123,8 +123,10 @@ class CommonLine {
         private final String[] cliArgs;
 
         private boolean  version;
-        private boolean  help;
-        private String   classpath;
+        private boolean help;
+        private boolean verboseClassFlag;
+        private boolean verboseInstFlag;
+        private String  classpath;
         private String   mainClass;
         private String[] args;
 
@@ -154,6 +156,24 @@ class CommonLine {
         @Override
         public boolean isHelp() {
             return help;
+        }
+
+        @Override
+        public boolean isVerboseClassFlag() {
+            return verboseClassFlag;
+        }
+
+        public void setVerboseClassFlag(boolean verboseClassFlag) {
+            this.verboseClassFlag = verboseClassFlag;
+        }
+
+        @Override
+        public boolean isVerboseInstFlag() {
+            return verboseInstFlag;
+        }
+
+        public void setVerboseInstFlag(boolean verboseInstFlag) {
+            this.verboseInstFlag = verboseInstFlag;
         }
 
         @Override

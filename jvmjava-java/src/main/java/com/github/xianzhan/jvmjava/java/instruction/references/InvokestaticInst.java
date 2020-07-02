@@ -2,38 +2,37 @@ package com.github.xianzhan.jvmjava.java.instruction.references;
 
 import com.github.xianzhan.jvmjava.java.instruction.Instruction;
 import com.github.xianzhan.jvmjava.java.runtime.Frame;
-import com.github.xianzhan.jvmjava.java.runtime.heap.CpClassRef;
+import com.github.xianzhan.jvmjava.java.runtime.heap.CpMethodRef;
 
 /**
  * @author xianzhan
- * @since 2020-06-25
+ * @since 2020-06-28
  */
-public class NewInst implements Instruction {
+public class InvokestaticInst implements Instruction {
 
     public final int index;
 
-    public NewInst(int index) {
+    public InvokestaticInst(int index) {
         this.index = index;
     }
 
     @Override
     public void execute(Frame frame) {
         var cp = frame.method().clazz().constantPool();
-        CpClassRef classRef = (CpClassRef) cp.getConstant(index).val;
-        var clazz = classRef.resolvedClass();
+        var methodRef = (CpMethodRef) cp.getConstant(index).val;
+        var resolvedMethod = methodRef.resolvedMethod();
+        if (!resolvedMethod.isStatic()) {
+            throw new IncompatibleClassChangeError();
+        }
 
+        var clazz = resolvedMethod.clazz();
         if (!clazz.initStarted()) {
             frame.revertNextPc();
             initClass(frame.thread(), clazz);
             return;
         }
 
-        if (clazz.isInterface() || clazz.isAbstract()) {
-            throw new InstantiationError(clazz.name);
-        }
-
-        var ref = clazz.newObject();
-        frame.operandStack().pushRef(ref);
+        invokeMethod(frame, resolvedMethod);
     }
 
     @Override
@@ -43,6 +42,6 @@ public class NewInst implements Instruction {
 
     @Override
     public String toString() {
-        return "new_";
+        return "invokestatic";
     }
 }

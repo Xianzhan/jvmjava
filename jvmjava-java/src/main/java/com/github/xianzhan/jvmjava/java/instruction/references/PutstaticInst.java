@@ -23,9 +23,14 @@ public class PutstaticInst implements Instruction {
         var currentMethod = frame.method();
         var currentClass = currentMethod.clazz();
         var cp = currentClass.constantPool();
-        CpFieldRef fieldRef = (CpFieldRef) cp.getConstant(index).val;
+        var fieldRef = (CpFieldRef) cp.getConstant(index).val;
         var field = fieldRef.resoledField();
         var clazz = field.clazz();
+        if (!clazz.initStarted()) {
+            frame.revertNextPc();
+            initClass(frame.thread(), clazz);
+            return;
+        }
 
         if (!field.isStatic()) {
             throw new IncompatibleClassChangeError(field.name());
@@ -46,28 +51,14 @@ public class PutstaticInst implements Instruction {
                     Symbol.DESCRIPTOR_BYTE,
                     Symbol.DESCRIPTOR_CHAR,
                     Symbol.DESCRIPTOR_SHORT,
-                    Symbol.DESCRIPTOR_INT: {
-                slots.setInt(slotIdx, stack.popInt());
-                break;
-            }
-            case Symbol.DESCRIPTOR_FLOAT: {
-                slots.setFloat(slotIdx, stack.popFloat());
-                break;
-            }
-            case Symbol.DESCRIPTOR_LONG: {
-                slots.setLong(slotIdx, stack.popLong());
-                break;
-            }
-            case Symbol.DESCRIPTOR_DOUBLE: {
-                slots.setDouble(slotIdx, stack.popDouble());
-                break;
-            }
+                    Symbol.DESCRIPTOR_INT -> slots.setInt(slotIdx, stack.popInt());
+            case Symbol.DESCRIPTOR_FLOAT -> slots.setFloat(slotIdx, stack.popFloat());
+            case Symbol.DESCRIPTOR_LONG -> slots.setLong(slotIdx, stack.popLong());
+            case Symbol.DESCRIPTOR_DOUBLE -> slots.setDouble(slotIdx, stack.popDouble());
             case Symbol.DESCRIPTOR_REF,
-                    Symbol.DESCRIPTOR_ARR: {
-                slots.setRef(slotIdx, stack.popRef());
-                break;
+                    Symbol.DESCRIPTOR_ARR -> slots.setRef(slotIdx, stack.popRef());
+            default -> {
             }
-            default:
         }
     }
 

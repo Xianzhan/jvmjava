@@ -22,6 +22,10 @@ public interface Args {
      */
     boolean isHelp();
 
+    boolean isVerboseClassFlag();
+
+    boolean isVerboseInstFlag();
+
     String xJreOption();
 
     /**

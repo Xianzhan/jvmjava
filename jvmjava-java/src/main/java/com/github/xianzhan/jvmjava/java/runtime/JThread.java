@@ -39,11 +39,24 @@ public class JThread {
         return stack.top();
     }
 
+    public Frame topFrame() {
+        return stack.top();
+    }
+
     public int getPc() {
         return pc;
     }
 
     public void setPc(int pc) {
         this.pc = pc;
+    }
+
+    public boolean isStackEmpty() {
+        return stack.isEmpty();
+    }
+
+    @Override
+    public String toString() {
+        return "JThread#";
     }
 }
