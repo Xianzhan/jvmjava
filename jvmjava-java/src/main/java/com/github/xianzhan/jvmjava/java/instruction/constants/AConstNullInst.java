@@ -10,6 +10,12 @@ import com.github.xianzhan.jvmjava.java.runtime.Frame;
 public class AConstNullInst implements Instruction {
     @Override
     public void execute(Frame frame) {
-        frame.operandStack().pushRef(null);
+        var operandStack = frame.operandStack();
+        operandStack.pushRef(null);
+    }
+
+    @Override
+    public String toString() {
+        return "aconst_null";
     }
 }
