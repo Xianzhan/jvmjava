@@ -16,4 +16,9 @@ public class NameAndType extends ConstantInfo {
         this.nameIndex = nameIndex;
         this.descriptionIndex = descriptionIndex;
     }
+
+    @Override
+    public String toString() {
+        return "NameAndType#" + cp().getString(nameIndex) + cp().getString(descriptionIndex);
+    }
 }

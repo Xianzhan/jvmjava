@@ -1,21 +1,20 @@
-package com.github.xianzhan.jvmjava.java.instruction.constants;
+package com.github.xianzhan.jvmjava.java.instruction.control;
 
 import com.github.xianzhan.jvmjava.java.instruction.Instruction;
 import com.github.xianzhan.jvmjava.java.runtime.Frame;
 
 /**
  * @author xianzhan
- * @since 2020-05-31
+ * @since 2020-06-29
  */
-public class AConstNullInst implements Instruction {
+public class ReturnInst implements Instruction {
     @Override
     public void execute(Frame frame) {
-        var operandStack = frame.operandStack();
-        operandStack.pushRef(null);
+        frame.thread().popFrame();
     }
 
     @Override
     public String toString() {
-        return "aconst_null";
+        return "return_";
     }
 }

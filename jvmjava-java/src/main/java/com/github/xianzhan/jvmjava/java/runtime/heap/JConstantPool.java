@@ -17,15 +17,15 @@ import com.github.xianzhan.jvmjava.java.classfile.cp.StringCp;
  */
 public class JConstantPool {
 
-    public  JClass      clazz;
-    private JConstant[] constArr;
+    public        JClass      clazz;
+    private final JConstant[] constArr;
 
     public JConstantPool(JClass clazz, ConstantPool constantPool) {
         this.clazz = clazz;
 
         int cpCount = constantPool.infos.length;
         constArr = JConstant.newArray(cpCount);
-        for (int i = 1; i < cpCount; i++) {
+        for (int i = 0; i < cpCount; i++) {
             var info = constantPool.infos[i];
             if (info instanceof IntegerCp integerCp) {
                 constArr[i].val = integerCp.val;

@@ -12,9 +12,11 @@ public class Symbol {
 
     // ------ method ------
 
-    public static final String METHOD_CLINIT = "<clinit>";
-    public static final String METHOD_INIT   = "<init>";
-    public static final String METHOD_MAIN   = "main";
+    public static final String METHOD_CLINIT           = "<clinit>";
+    public static final String METHOD_INIT             = "<init>";
+    public static final String METHOD_MAIN             = "main";
+    public static final String METHOD_REGISTER_NATIVES = "registerNatives";
+    public static final String METHOD_PRINTLN          = "println";
 
     // ------ descriptor ------
 
@@ -28,9 +30,11 @@ public class Symbol {
     public static final String DESCRIPTOR_DOUBLE  = "D";
     public static final String DESCRIPTOR_ARR     = "[";
     public static final String DESCRIPTOR_REF     = "L";
+    public static final String DESCRIPTOR_VOID    = "V";
 
     public static final String DESCRIPTOR_STR = "Ljava/lang/String;";
 
+    public static final String DESCRIPTOR_V_V       = "()V";
     public static final String DESCRIPTOR_BOOLEAN_V = "(Z)V";
     public static final String DESCRIPTOR_BYTE_V    = "(B)V";
     public static final String DESCRIPTOR_CHAR_V    = "(C)V";

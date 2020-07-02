@@ -13,4 +13,9 @@ public class ALoad0Inst implements Instruction {
         var v = frame.localVars().getRef(0);
         frame.operandStack().pushRef(v);
     }
+
+    @Override
+    public String toString() {
+        return "aload_0";
+    }
 }

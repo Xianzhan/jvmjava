@@ -20,10 +20,12 @@ public class ClassLoader {
 
     private final Classpath           cp;
     private final Map<String, JClass> classMap;
+    private final boolean             verboseClassFlag;
 
-    public ClassLoader(Classpath cp) {
+    public ClassLoader(Classpath cp, boolean verboseClassFlag) {
         this.cp = cp;
         this.classMap = CollectionUtils.newHashMap();
+        this.verboseClassFlag = verboseClassFlag;
     }
 
     public JClass loadClass(String name) {
@@ -39,7 +41,11 @@ public class ClassLoader {
         var classFile = readClass(name);
         var clazz = defineClass(classFile);
         link(clazz);
-        System.out.println("[Loaded %s from %s]\n".formatted(name, classFile));
+
+        if (verboseClassFlag) {
+            System.out.println("[Loaded %s from %s]\n".formatted(name, classFile));
+        }
+
         return clazz;
     }
 

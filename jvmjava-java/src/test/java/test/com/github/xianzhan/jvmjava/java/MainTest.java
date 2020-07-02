@@ -59,4 +59,65 @@ public class MainTest {
                 "SixObj"
         );
     }
+
+    /**
+     * package lxz;
+     *
+     * public class SevenInvoke implements Runnable {
+     *     public static void main(String[] args) {
+     *         new SevenInvoke().test();
+     *     }
+     *
+     *     public void test() {
+     *         SevenInvoke.staticMethod();           // invokestatic
+     *         SevenInvoke demo = new SevenInvoke(); // invokespecial
+     *         demo.instanceMethod();                // invokespecial
+     *         super.equals(null);                   // invokespecial
+     *         this.run();                           // invokevirtual
+     *         ((Runnable) demo).run();              // invokeinterface
+     *     }
+     *
+     *     public static void staticMethod() {
+     *     }
+     *
+     *     private void instanceMethod() {
+     *     }
+     *
+     *     @Override
+     *     public void run() {
+     *     }
+     * }
+     */
+    @Test
+    public void testInterpretSevenInvoke() {
+        Main.main(
+                "-cp", "src/test/resources/test/com/github/xianzhan/jvmjava/java/interpret/",
+                "SevenInvoke"
+        );
+    }
+
+    /**
+     * package lxz;
+     *
+     * public class SevenFibonacci {
+     *     public static void main(String[] args) {
+     *         long x = fibonacci(30);
+     *         System.out.println(x);
+     *     }
+     *
+     *     private static long fibonacci(long n) {
+     *         if (n <= 1) {
+     *             return n;
+     *         }
+     *         return fibonacci(n - 1) + fibonacci(n - 2);
+     *     }
+     * }
+     */
+    @Test
+    public void testInterpretSevenFibonacci() {
+        Main.main(
+                "-cp", "src/test/resources/test/com/github/xianzhan/jvmjava/java/interpret/",
+                "SevenFibonacci"
+        );
+    }
 }

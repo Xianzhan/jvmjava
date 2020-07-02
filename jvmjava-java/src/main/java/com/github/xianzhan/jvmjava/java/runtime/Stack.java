@@ -36,6 +36,18 @@ public class Stack<E> {
         return stack.peek();
     }
 
+    public E get(int index) {
+        return stack.get(index);
+    }
+
+    public int size() {
+        return stack.size();
+    }
+
+    public boolean isEmpty() {
+        return stack.isEmpty();
+    }
+
     @Override
     public String toString() {
         return "Stack{" +

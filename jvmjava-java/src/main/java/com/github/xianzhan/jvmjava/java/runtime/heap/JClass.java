@@ -30,6 +30,7 @@ public class JClass {
     public       int           instanceSlotCount;
     public       int           staticSlotCount;
     public       Slot[]        staticVars;
+    private      boolean       initStarted;
 
     public JClass(ClassFile cf) {
         this.accessFlags = cf.accessFlags;
@@ -88,6 +89,10 @@ public class JClass {
         return false;
     }
 
+    public boolean isSuperClassOf(JClass other) {
+        return other.isSubClassOf(this);
+    }
+
     public boolean isImplements(JClass iFace) {
         var superClass = this;
         while (superClass != null) {
@@ -133,6 +138,10 @@ public class JClass {
         return getStaticMethod(Symbol.METHOD_MAIN, Symbol.DESCRIPTOR_STR_ARR_V);
     }
 
+    public JMethod getClinitMethod() {
+        return getStaticMethod(Symbol.METHOD_CLINIT, Symbol.DESCRIPTOR_V_V);
+    }
+
     private JMethod getStaticMethod(String name, String descriptor) {
         for (var method : methods) {
             if (method.isStatic() &&
@@ -154,7 +163,20 @@ public class JClass {
         return staticVars;
     }
 
+    public void startInit() {
+        initStarted = true;
+    }
+
+    public boolean initStarted() {
+        return initStarted;
+    }
+
     public JObject newObject() {
         return new JObject(this);
+    }
+
+    @Override
+    public String toString() {
+        return "JClass#" + name;
     }
 }

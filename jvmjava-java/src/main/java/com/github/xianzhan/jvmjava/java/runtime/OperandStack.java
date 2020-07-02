@@ -78,6 +78,10 @@ public class OperandStack {
         return slots.pop();
     }
 
+    public JObject getRefFromTop(int n) {
+        return slots.get(slots.size() - 1 - n).ref;
+    }
+
     @Override
     public String toString() {
         return slots.toString();

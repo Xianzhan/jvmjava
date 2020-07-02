@@ -74,6 +74,10 @@ public class LocalVars {
         return slots[index].ref;
     }
 
+    public void setSlot(int index, Slot slot) {
+        slots[index] = slot;
+    }
+
     @Override
     public String toString() {
         return Arrays.toString(slots);

@@ -15,6 +15,9 @@ public class Frame {
     private final OperandStack operandStack;
     private final JThread      thread;
     private final JMethod      method;
+    /**
+     * the next instruction after the call
+     */
     private       int          nextPc;
 
     public Frame(JThread thread, JMethod method) {
@@ -46,5 +49,14 @@ public class Frame {
 
     public void nextPc(int nextPc) {
         this.nextPc = nextPc;
+    }
+
+    public void revertNextPc() {
+        nextPc = thread.getPc();
+    }
+
+    @Override
+    public String toString() {
+        return "Frame#" + thread + method;
     }
 }

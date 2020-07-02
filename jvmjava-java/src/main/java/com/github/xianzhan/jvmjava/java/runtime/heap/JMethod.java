@@ -3,6 +3,8 @@ package com.github.xianzhan.jvmjava.java.runtime.heap;
 import com.github.xianzhan.jvmjava.java.classfile.AccessFlags;
 import com.github.xianzhan.jvmjava.java.classfile.Member;
 import com.github.xianzhan.jvmjava.java.instruction.Instruction;
+import com.github.xianzhan.jvmjava.java.runtime.heap.method.JMethodDescriptorParser;
+import com.github.xianzhan.jvmjava.java.util.Symbol;
 
 import java.util.Map;
 
@@ -15,18 +17,23 @@ public class JMethod extends JClassMember {
     public  int                       maxStack;
     public  int                       maxLocals;
     private Map<Integer, Instruction> codeMap;
+    /**
+     * 参数插槽个数
+     */
+    private int                       argSlotCount;
 
     public static JMethod[] newMethods(JClass clazz, Member[] cfMethods) {
         final int len = cfMethods.length;
         var methods = new JMethod[len];
         for (int i = 0; i < len; i++) {
-            var method = cfMethods[i];
-            var jMethod = new JMethod();
-            jMethod.clazz = clazz;
-            jMethod.copyMemberInfo(method);
-            jMethod.copyAttributes(method);
+            var cfMethod = cfMethods[i];
+            var method = new JMethod();
+            method.clazz = clazz;
+            method.copyMemberInfo(cfMethod);
+            method.copyAttributes(cfMethod);
+            method.calcArgSlotCount();
 
-            methods[i] = jMethod;
+            methods[i] = method;
         }
         return methods;
     }
@@ -67,6 +74,10 @@ public class JMethod extends JClassMember {
         return codeMap;
     }
 
+    public int argSlotCount() {
+        return argSlotCount;
+    }
+
     private void copyAttributes(Member method) {
         var code = method.codeAttribute();
         if (code != null) {
@@ -74,5 +85,25 @@ public class JMethod extends JClassMember {
             maxLocals = code.maxLocals;
             codeMap = code.codeMap();
         }
+    }
+
+    private void calcArgSlotCount() {
+        var parsedDescriptor = JMethodDescriptorParser.parseMethodDescriptor(descriptor);
+        for (var paramType : parsedDescriptor.parameterType) {
+            argSlotCount++;
+            if (Symbol.DESCRIPTOR_LONG.equals(paramType) || Symbol.DESCRIPTOR_DOUBLE.equals(paramType)) {
+                argSlotCount++;
+            }
+        }
+
+        if (!isStatic()) {
+            // `this` reference
+            argSlotCount++;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "JMethod#" + clazz.name + "." + name + descriptor;
     }
 }

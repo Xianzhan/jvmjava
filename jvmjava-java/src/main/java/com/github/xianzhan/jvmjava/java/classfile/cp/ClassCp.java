@@ -18,4 +18,9 @@ public class ClassCp extends ConstantInfo {
     public String name() {
         return cp().getString(nameIndex);
     }
+
+    @Override
+    public String toString() {
+        return "ClassCp#" + name();
+    }
 }
