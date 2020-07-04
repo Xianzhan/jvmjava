@@ -13,6 +13,12 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
+ * class names:
+ *     - primitive types: boolean, byte, int ...
+ *     - primitive arrays: [Z, [B, [I ...
+ *     - non-array classes: java/lang/Object ...
+ *     - array classes: [Ljava/lang/Object; ...
+ *
  * @author xianzhan
  * @since 2020-06-23
  */
@@ -34,7 +40,18 @@ public class ClassLoader {
             return clazz;
         }
 
+        if (name.startsWith(Symbol.DESCRIPTOR_ARR)) {
+            // array class
+            return loadArrayClass(name);
+        }
+
         return loadNonArrayClass(name);
+    }
+
+    private JClass loadArrayClass(String name) {
+        var clazz = new JClass(name, this);
+        classMap.put(name, clazz);
+        return clazz;
     }
 
     private JClass loadNonArrayClass(String name) {

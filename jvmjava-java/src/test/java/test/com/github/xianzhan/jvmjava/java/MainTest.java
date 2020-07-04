@@ -120,4 +120,72 @@ public class MainTest {
                 "SevenFibonacci"
         );
     }
+
+    /**
+     * package lxz;
+     *
+     * public class EightBubbleSort {
+     *     public static void main(String[] args) {
+     *         int[] arr = { 22, 84, 77, 11, 95, 9, 78, 56, 36, 97, 65, 36, 10, 24, 92, 48 };
+     *         bubbleSort(arr);
+     *         printArray(arr);
+     *     }
+     *
+     *     private static void bubbleSort(int[] arr) {
+     *         boolean swapped = true;
+     *         int j = 0;
+     *         int tmp;
+     *         while (swapped) {
+     *             swapped = false;
+     *             j++;
+     *             for (int i = 0; i < arr.length - j; i++) {
+     *                 if (arr[i] > arr[i + 1]) {
+     *                     tmp = arr[i];
+     *                     arr[i] = arr[i + 1];
+     *                     arr[i + 1] = tmp;
+     *                     swapped = true;
+     *                 }
+     *             }
+     *         }
+     *     }
+     *
+     *     private static void printArray(int[] arr) {
+     *         for (int i : arr) {
+     *             System.out.println(i);
+     *         }
+     *     }
+     * }
+     */
+    @Test
+    public void testInterpretEightBubbleSort() {
+        Main.main(
+                "-cp", "src/test/resources/test/com/github/xianzhan/jvmjava/java/interpret/",
+                "EightBubbleSort"
+        );
+    }
+
+    /**
+     * package lxz;
+     *
+     * public class EightArray {
+     *
+     *     public static void main(String[] args) {
+     *         int[] a1 = new int[10];       // newarray
+     *         String[] a2 = new String[10]; // anewarray
+     *         int[][] a3 = new int[10][10]; // multianewarray
+     *         int x = a1.length;            // arraylength
+     *         a1[0] = 100;                  // iastore
+     *         int y = a1[0];                // iaload
+     *         a2[0] = "abc";                // aastore
+     *         String s = a2[0];             // aaload
+     *     }
+     * }
+     */
+    @Test
+    public void testInterpretEightArray() {
+        Main.main(
+                "-cp", "src/test/resources/test/com/github/xianzhan/jvmjava/java/interpret/",
+                "EightArray"
+        );
+    }
 }

@@ -4,7 +4,6 @@ import com.github.xianzhan.jvmjava.java.instruction.Instruction;
 import com.github.xianzhan.jvmjava.java.runtime.Frame;
 import com.github.xianzhan.jvmjava.java.runtime.OperandStack;
 import com.github.xianzhan.jvmjava.java.runtime.heap.CpMethodRef;
-import com.github.xianzhan.jvmjava.java.runtime.heap.JMethod;
 import com.github.xianzhan.jvmjava.java.util.Symbol;
 
 import java.util.Objects;
@@ -37,7 +36,8 @@ public class InvokevirtualInst implements Instruction {
 
         var operandStack = frame.operandStack();
         var argSlotCount = resolvedMethod.argSlotCount();
-        var ref = operandStack.getRefFromTop(argSlotCount - 1);
+///        var ref = operandStack.getRefFromTop(argSlotCount - 1);
+        var ref = operandStack.getRefFromTop(0);
         if (ref == null) {
             // todo hack
             if (Symbol.METHOD_PRINTLN.equals(methodRef.name())) {
@@ -77,7 +77,7 @@ public class InvokevirtualInst implements Instruction {
             case Symbol.DESCRIPTOR_DOUBLE_V -> System.out.println(stack.popDouble());
             default -> System.out.println(descriptor);
         }
-        stack.popRef();
+//        stack.popRef();
     }
 
     @Override

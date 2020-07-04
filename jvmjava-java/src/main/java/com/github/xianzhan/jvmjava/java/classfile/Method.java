@@ -2,6 +2,7 @@ package com.github.xianzhan.jvmjava.java.classfile;
 
 import com.github.xianzhan.jvmjava.java.classfile.attribute.Code;
 import com.github.xianzhan.jvmjava.java.classfile.attribute.LineNumberTable;
+import com.github.xianzhan.jvmjava.java.util.AccessFlags;
 
 /**
  * method_info {

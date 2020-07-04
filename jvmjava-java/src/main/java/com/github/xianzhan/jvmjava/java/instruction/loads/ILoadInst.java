@@ -20,4 +20,15 @@ public class ILoadInst implements Instruction {
         int v = frame.localVars().getInt(index);
         frame.operandStack().pushInt(v);
     }
+
+    @Override
+    public int offset() {
+        // bug
+        return 2;
+    }
+
+    @Override
+    public String toString() {
+        return "iload";
+    }
 }

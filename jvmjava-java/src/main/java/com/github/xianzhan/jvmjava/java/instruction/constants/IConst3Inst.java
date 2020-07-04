@@ -12,4 +12,9 @@ public class IConst3Inst implements Instruction {
     public void execute(Frame frame) {
         frame.operandStack().pushInt(3);
     }
+
+    @Override
+    public String toString() {
+        return "iconst_3";
+    }
 }

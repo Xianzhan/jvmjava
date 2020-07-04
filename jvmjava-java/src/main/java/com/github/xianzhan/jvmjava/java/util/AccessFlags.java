@@ -1,4 +1,4 @@
-package com.github.xianzhan.jvmjava.java.classfile;
+package com.github.xianzhan.jvmjava.java.util;
 
 /**
  * @author xianzhan
