@@ -46,6 +46,7 @@ public interface Symbol {
     String CLASS_OBJ          = "java/lang/Object";
     String CLASS_CLONEABLE    = "java/lang/Cloneable";
     String CLASS_SERIALIZABLE = "java/io/Serializable";
+    String CLASS_STR          = "java/lang/String";
 
     // ------ method ------
 
@@ -90,6 +91,7 @@ public interface Symbol {
     String DESCRIPTOR_FLOAT_V   = "(F)V";
     String DESCRIPTOR_LONG_V    = "(J)V";
     String DESCRIPTOR_DOUBLE_V  = "(D)V";
+    String DESCRIPTOR_STR_V     = "(Ljava/lang/String;)V";
     String DESCRIPTOR_STR_ARR_V = "([Ljava/lang/String;)V";
 
     /**
@@ -114,4 +116,8 @@ public interface Symbol {
             default -> "";
         };
     }
+
+    // field
+
+    String FIELD_VALUE = "value";
 }

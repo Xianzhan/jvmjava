@@ -28,6 +28,8 @@ public interface Args {
 
     String xJreOption();
 
+    String[] getArgs();
+
     /**
      * Get class path
      *

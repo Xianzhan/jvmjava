@@ -29,6 +29,7 @@ class CommonLine {
     private static final String HYPHEN_HELP    = "-help";
     private static final String HYPHEN_CP      = "-cp";
     private static final String HYPHEN_JAR     = "-jar";
+    private static final String HYPHEN_VERBOSE = "-verbose";
 
     public static Args parseArgs(String... cliArgs) {
         if (cliArgs.length > LIMIT_ARGS_COUNT) {
@@ -76,6 +77,12 @@ class CommonLine {
                 ret.appendClasspath(mainJar);
                 String mainClass = parseMainClass(mainJar);
                 ret.setMainClass(mainClass);
+            } else if (arg.startsWith(HYPHEN_VERBOSE)) {
+                if (arg.endsWith(":class")) {
+                    ret.setVerboseClassFlag(true);
+                } else if (arg.endsWith(":inst")) {
+                    ret.setVerboseInstFlag(true);
+                }
             }
 
             index++;
@@ -90,10 +97,19 @@ class CommonLine {
             ret.setMainClass(mainClass);
         }
         // Main class args
-        if (index < length) {
+        if (index <= length) {
             int argsLength = length - index;
-            String[] args = new String[argsLength];
-            System.arraycopy(cliArgs, index, args, 0, argsLength);
+
+            String[] args;
+            if (argsLength == 0) {
+                args = ArrayUtils.EMPTY_STRING;
+            } else {
+                args = new String[argsLength];
+            }
+
+            if (argsLength > 0) {
+                System.arraycopy(cliArgs, index, args, 0, argsLength);
+            }
             ret.setArgs(args);
         }
 
@@ -123,10 +139,10 @@ class CommonLine {
         private final String[] cliArgs;
 
         private boolean  version;
-        private boolean help;
-        private boolean verboseClassFlag;
-        private boolean verboseInstFlag;
-        private String  classpath;
+        private boolean  help;
+        private boolean  verboseClassFlag;
+        private boolean  verboseInstFlag;
+        private String   classpath;
         private String   mainClass;
         private String[] args;
 
@@ -199,6 +215,7 @@ class CommonLine {
             this.mainClass = mainClass;
         }
 
+        @Override
         public String[] getArgs() {
             return args;
         }

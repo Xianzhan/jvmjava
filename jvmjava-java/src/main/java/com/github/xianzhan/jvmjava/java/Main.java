@@ -39,7 +39,7 @@ public class Main {
         var mainMethod = mainClass.getMainMethod();
         if (mainMethod != null) {
             var interpreter = new Interpreter();
-            interpreter.interpret(mainMethod, cmd.isVerboseInstFlag());
+            interpreter.interpret(mainMethod, cmd.isVerboseInstFlag(), cmd.getArgs());
         } else {
             System.err.println("Main method not found in class %s\n".formatted(mainClassName));
         }

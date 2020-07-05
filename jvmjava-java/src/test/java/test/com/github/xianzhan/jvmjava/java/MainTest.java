@@ -167,6 +167,44 @@ public class MainTest {
     /**
      * package lxz;
      *
+     * public class EightHello {
+     *     public static void main(String[] args) {
+     *         System.out.println("Hello world");
+     *     }
+     * }
+     */
+    @Test
+    public void testInterpretEightHello() {
+        Main.main(
+                "-cp", "src/test/resources/test/com/github/xianzhan/jvmjava/java/interpret/",
+                "EightHello"
+        );
+    }
+
+    /**
+     * package lxz;
+     *
+     * public class EightArgs {
+     *     public static void main(String[] args) {
+     *         for (String arg : args) {
+     *             System.out.println(arg);
+     *         }
+     *     }
+     * }
+     */
+    @Test
+    public void testInterpretEightArgs() {
+        Main.main(
+                "-cp", "src/test/resources/test/com/github/xianzhan/jvmjava/java/interpret/",
+                "-verbose:class",
+                "EightArgs",
+                "123", "你好, 世界"
+        );
+    }
+
+    /**
+     * package lxz;
+     *
      * public class EightArray {
      *
      *     public static void main(String[] args) {
