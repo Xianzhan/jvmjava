@@ -6,13 +6,19 @@ import com.github.xianzhan.jvmjava.java.runtime.LocalVars;
 import com.github.xianzhan.jvmjava.java.runtime.Slot;
 import com.github.xianzhan.jvmjava.java.runtime.heap.JClass;
 import com.github.xianzhan.jvmjava.java.runtime.heap.JField;
+import com.github.xianzhan.jvmjava.java.runtime.heap.StringPool;
 import com.github.xianzhan.jvmjava.java.util.CollectionUtils;
 import com.github.xianzhan.jvmjava.java.util.Symbol;
 
 import java.util.Map;
-import java.util.Objects;
 
 /**
+ * class names:
+ *     - primitive types: boolean, byte, int ...
+ *     - primitive arrays: [Z, [B, [I ...
+ *     - non-array classes: java/lang/Object ...
+ *     - array classes: [Ljava/lang/Object; ...
+ *
  * @author xianzhan
  * @since 2020-06-23
  */
@@ -34,7 +40,18 @@ public class ClassLoader {
             return clazz;
         }
 
+        if (name.startsWith(Symbol.DESCRIPTOR_ARR)) {
+            // array class
+            return loadArrayClass(name);
+        }
+
         return loadNonArrayClass(name);
+    }
+
+    private JClass loadArrayClass(String name) {
+        var clazz = new JClass(name, this);
+        classMap.put(name, clazz);
+        return clazz;
     }
 
     private JClass loadNonArrayClass(String name) {
@@ -43,7 +60,7 @@ public class ClassLoader {
         link(clazz);
 
         if (verboseClassFlag) {
-            System.out.println("[Loaded %s from %s]\n".formatted(name, classFile));
+            System.out.println("[Loaded %s from %s]".formatted(name, classFile));
         }
 
         return clazz;
@@ -80,7 +97,7 @@ public class ClassLoader {
     }
 
     private void resolveSuperClass(JClass clazz) {
-        if (!Objects.equals(clazz.name, Symbol.CLASS_OBJ)) {
+        if (!Symbol.CLASS_OBJ.equals(clazz.name)) {
             clazz.superClass = clazz.loader.loadClass(clazz.superClassName);
         }
     }
@@ -167,6 +184,11 @@ public class ClassLoader {
                 case Symbol.DESCRIPTOR_DOUBLE -> {
                     double d = (double) cp.getConstant(cpIndex).val;
                     staticVars.setDouble(slotIdx, d);
+                }
+                case Symbol.DESCRIPTOR_STR -> {
+                    var str = (String) cp.getConstant(cpIndex).val;
+                    var jStr = StringPool.jString(clazz.loader, str);
+                    staticVars.setRef(slotIdx, jStr);
                 }
                 default -> throw new RuntimeException("todo");
             }

@@ -202,6 +202,6 @@ public class ClassFile {
 
     @Override
     public String toString() {
-        return "ClassFile-" + classname();
+        return "ClassFile#" + classname();
     }
 }

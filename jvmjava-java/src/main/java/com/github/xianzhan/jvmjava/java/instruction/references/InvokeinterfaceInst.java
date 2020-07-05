@@ -31,7 +31,8 @@ public class InvokeinterfaceInst implements Instruction {
             throw new IncompatibleClassChangeError(resolveMethod.name());
         }
 
-        var ref = frame.operandStack().getRefFromTop(resolveMethod.argSlotCount() - 1);
+///        var ref = frame.operandStack().getRefFromTop(resolveMethod.argSlotCount() - 1);
+        var ref = frame.operandStack().getRefFromTop(0);
         if (ref == null) {
             // todo
             throw new NullPointerException();

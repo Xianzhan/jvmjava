@@ -1,6 +1,8 @@
 package com.github.xianzhan.jvmjava.java.instruction.constants;
 
 /**
+ * Push item from run-time constant pool (wide index)
+ *
  * @author xianzhan
  * @see LdcInst
  * @since 2020-06-26

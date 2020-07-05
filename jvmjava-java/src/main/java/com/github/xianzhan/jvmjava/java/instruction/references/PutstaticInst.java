@@ -58,6 +58,8 @@ public class PutstaticInst implements Instruction {
             case Symbol.DESCRIPTOR_REF,
                     Symbol.DESCRIPTOR_ARR -> slots.setRef(slotIdx, stack.popRef());
             default -> {
+                // todo
+                slots.setRef(slotIdx, stack.popRef());
             }
         }
     }

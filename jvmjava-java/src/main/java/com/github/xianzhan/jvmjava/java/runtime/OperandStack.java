@@ -79,7 +79,9 @@ public class OperandStack {
     }
 
     public JObject getRefFromTop(int n) {
-        return slots.get(slots.size() - 1 - n).ref;
+        var size = slots.size();
+        var index = size - 1 - n;
+        return slots.get(index).ref;
     }
 
     @Override

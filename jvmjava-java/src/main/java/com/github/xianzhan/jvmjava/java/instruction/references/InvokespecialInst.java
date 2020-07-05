@@ -39,8 +39,9 @@ public class InvokespecialInst implements Instruction {
         }
 
         var operandStack = frame.operandStack();
-        var count = resolvedMethod.argSlotCount();
-        var ref = operandStack.getRefFromTop(count - 1);
+///        var count = resolvedMethod.argSlotCount();
+//        var ref = operandStack.getRefFromTop(count - 1);
+        var ref = operandStack.getRefFromTop(0);
         // if (ref == null) NullPointerException
         if (ref != null) {
             if (resolvedMethod.isProtected() &&

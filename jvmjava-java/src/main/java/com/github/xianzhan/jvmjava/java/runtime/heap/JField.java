@@ -1,6 +1,6 @@
 package com.github.xianzhan.jvmjava.java.runtime.heap;
 
-import com.github.xianzhan.jvmjava.java.classfile.AccessFlags;
+import com.github.xianzhan.jvmjava.java.util.AccessFlags;
 import com.github.xianzhan.jvmjava.java.classfile.Member;
 import com.github.xianzhan.jvmjava.java.util.Symbol;
 
@@ -57,5 +57,10 @@ public class JField extends JClassMember {
 
     public int constValueIndex() {
         return constValueIndex;
+    }
+
+    @Override
+    public String toString() {
+        return "JField#" + clazz.name + "." + name + ":" + descriptor;
     }
 }

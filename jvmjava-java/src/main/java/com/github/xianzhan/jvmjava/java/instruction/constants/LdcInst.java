@@ -2,9 +2,12 @@ package com.github.xianzhan.jvmjava.java.instruction.constants;
 
 import com.github.xianzhan.jvmjava.java.instruction.Instruction;
 import com.github.xianzhan.jvmjava.java.runtime.Frame;
+import com.github.xianzhan.jvmjava.java.runtime.heap.StringPool;
 
 /**
  * ldc 系列指令从运行时常量池中加载常量值，并把它推入操作数栈。
+ * <p>
+ * Push item from run-time constant pool
  *
  * @author xianzhan
  * @since 2020-06-26
@@ -20,15 +23,18 @@ public class LdcInst implements Instruction {
     @Override
     public void execute(Frame frame) {
         var stack = frame.operandStack();
-        var cp = frame.method().clazz().constantPool();
+        var clazz = frame.method().clazz();
+        var cp = clazz.constantPool();
         var c = cp.getConstant(index);
 
         if (c.val instanceof Integer i) {
             stack.pushInt(i);
         } else if (c.val instanceof Float f) {
             stack.pushFloat(f);
+        } else if (c.val instanceof String str) {
+            var internedStr = StringPool.jString(clazz.loader, str);
+            stack.pushRef(internedStr);
         } else {
-            // String
             // CpClassRef
             // MethodType, MethodHandle
             throw new RuntimeException("todo: ldc" + c);

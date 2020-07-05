@@ -12,4 +12,9 @@ public class IConst5Inst implements Instruction {
     public void execute(Frame frame) {
         frame.operandStack().pushInt(5);
     }
+
+    @Override
+    public String toString() {
+        return "iconst_5";
+    }
 }

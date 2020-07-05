@@ -1,6 +1,6 @@
 package com.github.xianzhan.jvmjava.java.runtime.heap;
 
-import com.github.xianzhan.jvmjava.java.classfile.AccessFlags;
+import com.github.xianzhan.jvmjava.java.util.AccessFlags;
 import com.github.xianzhan.jvmjava.java.classfile.Member;
 
 import java.util.Objects;

@@ -57,6 +57,6 @@ public class JThread {
 
     @Override
     public String toString() {
-        return "JThread#";
+        return "JThread#" + pc;
     }
 }

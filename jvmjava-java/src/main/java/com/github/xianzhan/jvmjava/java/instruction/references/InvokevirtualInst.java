@@ -4,7 +4,7 @@ import com.github.xianzhan.jvmjava.java.instruction.Instruction;
 import com.github.xianzhan.jvmjava.java.runtime.Frame;
 import com.github.xianzhan.jvmjava.java.runtime.OperandStack;
 import com.github.xianzhan.jvmjava.java.runtime.heap.CpMethodRef;
-import com.github.xianzhan.jvmjava.java.runtime.heap.JMethod;
+import com.github.xianzhan.jvmjava.java.runtime.heap.StringPool;
 import com.github.xianzhan.jvmjava.java.util.Symbol;
 
 import java.util.Objects;
@@ -35,15 +35,17 @@ public class InvokevirtualInst implements Instruction {
             throw new IncompatibleClassChangeError();
         }
 
+        if (Symbol.METHOD_PRINTLN.equals(methodRef.name())) {
+            // todo hack
+            println(frame.operandStack(), methodRef.descriptor());
+            return;
+        }
         var operandStack = frame.operandStack();
         var argSlotCount = resolvedMethod.argSlotCount();
-        var ref = operandStack.getRefFromTop(argSlotCount - 1);
+///        var ref = operandStack.getRefFromTop(argSlotCount - 1);
+        var ref = operandStack.getRefFromTop(0);
         if (ref == null) {
             // todo hack
-            if (Symbol.METHOD_PRINTLN.equals(methodRef.name())) {
-                println(frame.operandStack(), methodRef.descriptor());
-                return;
-            }
             throw new NullPointerException();
         }
 
@@ -75,9 +77,14 @@ public class InvokevirtualInst implements Instruction {
             case Symbol.DESCRIPTOR_FLOAT_V -> System.out.println(stack.popFloat());
             case Symbol.DESCRIPTOR_LONG_V -> System.out.println(stack.popLong());
             case Symbol.DESCRIPTOR_DOUBLE_V -> System.out.println(stack.popDouble());
-            default -> System.out.println(descriptor);
+            case Symbol.DESCRIPTOR_STR_V -> {
+                var jStr = stack.popRef();
+                var string = StringPool.string(jStr);
+                System.out.println(string);
+            }
+            default -> throw new RuntimeException("println: " + descriptor);
         }
-        stack.popRef();
+//        stack.popRef();
     }
 
     @Override
