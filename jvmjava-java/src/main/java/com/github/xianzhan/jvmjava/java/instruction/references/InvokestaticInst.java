@@ -32,7 +32,7 @@ public class InvokestaticInst implements Instruction {
             return;
         }
 
-        invokeMethod(frame, resolvedMethod);
+        Instruction.invokeMethod(frame, resolvedMethod);
     }
 
     @Override

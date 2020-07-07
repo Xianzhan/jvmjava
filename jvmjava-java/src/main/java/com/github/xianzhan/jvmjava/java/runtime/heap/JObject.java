@@ -9,19 +9,27 @@ import com.github.xianzhan.jvmjava.java.runtime.Slot;
  * @author xianzhan
  * @since 2020-06-19
  */
-public class JObject {
+public class JObject implements Cloneable {
 
     private final JClass clazz;
     /**
      * Slots for Object, []int32 for int[] ...
      */
     private final Object data;
+    private       Object extra;
 
     public JObject(JClass clazz) {
         this.clazz = clazz;
+//        this.data = Slot.newSlots(clazz.instanceSlotCount);
         this.data = new Slot[clazz.instanceSlotCount];
     }
 
+    /**
+     * 创建数组对象
+     *
+     * @param clazz 数组类型
+     * @param data  数组
+     */
     public JObject(JClass clazz, Object data) {
         this.clazz = clazz;
         this.data = data;
@@ -57,6 +65,14 @@ public class JObject {
         var field = clazz.getField(name, descriptor, false);
         var slots = (Slot[]) data;
         new LocalVars(slots).setRef(field.slotIdx, ref);
+    }
+
+    public void extra(Object extra) {
+        this.extra = extra;
+    }
+
+    public Object extra() {
+        return extra;
     }
 
     // array
@@ -115,6 +131,20 @@ public class JObject {
             throw new RuntimeException("Not array!");
         }
         return length;
+    }
+
+    /**
+     * 原始对象数据
+     *
+     * @return data
+     */
+    public Object data() {
+        return data;
+    }
+
+    @Override
+    public JObject clone() throws CloneNotSupportedException {
+        return (JObject) super.clone();
     }
 
     @Override

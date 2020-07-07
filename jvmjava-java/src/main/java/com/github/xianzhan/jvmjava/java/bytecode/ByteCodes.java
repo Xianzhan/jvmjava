@@ -223,6 +223,11 @@ public interface ByteCodes {
             ByteCodeCount   = 203;
 
     /**
+     * 自定义, 本地方法调用
+     */
+    int invokenative = 254;
+
+    /**
      * Virtual instruction codes; used for constant folding.
      */
     int string_add   = 256,  // string +

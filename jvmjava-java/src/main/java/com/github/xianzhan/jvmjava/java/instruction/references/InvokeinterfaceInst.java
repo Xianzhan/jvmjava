@@ -31,7 +31,7 @@ public class InvokeinterfaceInst implements Instruction {
             throw new IncompatibleClassChangeError(resolveMethod.name());
         }
 
-///        var ref = frame.operandStack().getRefFromTop(resolveMethod.argSlotCount() - 1);
+///        var argSlotCount = resolveMethod.argSlotCount();
         var ref = frame.operandStack().getRefFromTop(0);
         if (ref == null) {
             // todo
@@ -49,7 +49,7 @@ public class InvokeinterfaceInst implements Instruction {
             throw new IllegalAccessError();
         }
 
-        invokeMethod(frame, methodToBeInvoked);
+        Instruction.invokeMethod(frame, methodToBeInvoked);
     }
 
     @Override

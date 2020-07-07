@@ -39,7 +39,7 @@ public class GetstaticInst implements Instruction {
         var slots = new LocalVars(clazz.staticVars());
         var stack = frame.operandStack();
 
-        switch (descriptor) {
+        switch (descriptor.substring(0, 1)) {
             case Symbol.DESCRIPTOR_BOOLEAN,
                     Symbol.DESCRIPTOR_BYTE,
                     Symbol.DESCRIPTOR_CHAR,
@@ -48,6 +48,8 @@ public class GetstaticInst implements Instruction {
             case Symbol.DESCRIPTOR_FLOAT -> stack.pushFloat(slots.getFloat(slotIdx));
             case Symbol.DESCRIPTOR_LONG -> stack.pushLong(slots.getLong(slotIdx));
             case Symbol.DESCRIPTOR_DOUBLE -> stack.pushDouble(slots.getDouble(slotIdx));
+            case Symbol.DESCRIPTOR_REF,
+                    Symbol.DESCRIPTOR_ARR -> stack.pushRef(slots.getRef(slotIdx));
             default -> {
             }
         }

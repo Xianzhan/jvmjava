@@ -37,27 +37,17 @@ public class GetfieldInst implements Instruction {
         var slotIdx = field.slotIdx;
         var slots = ref.fields();
 
-        switch (descriptor) {
+        switch (descriptor.substring(0, 1)) {
             case Symbol.DESCRIPTOR_BOOLEAN,
                     Symbol.DESCRIPTOR_BYTE,
                     Symbol.DESCRIPTOR_CHAR,
                     Symbol.DESCRIPTOR_SHORT,
-                    Symbol.DESCRIPTOR_INT -> {
-                stack.pushInt(slots.getInt(slotIdx));
-            }
-            case Symbol.DESCRIPTOR_FLOAT -> {
-                stack.pushFloat(slots.getFloat(slotIdx));
-            }
-            case Symbol.DESCRIPTOR_LONG -> {
-                stack.pushLong(slots.getLong(slotIdx));
-            }
-            case Symbol.DESCRIPTOR_DOUBLE -> {
-                stack.pushDouble(slots.getDouble(slotIdx));
-            }
+                    Symbol.DESCRIPTOR_INT -> stack.pushInt(slots.getInt(slotIdx));
+            case Symbol.DESCRIPTOR_FLOAT -> stack.pushFloat(slots.getFloat(slotIdx));
+            case Symbol.DESCRIPTOR_LONG -> stack.pushLong(slots.getLong(slotIdx));
+            case Symbol.DESCRIPTOR_DOUBLE -> stack.pushDouble(slots.getDouble(slotIdx));
             case Symbol.DESCRIPTOR_REF,
-                    Symbol.DESCRIPTOR_ARR -> {
-                stack.pushRef(slots.getRef(slotIdx));
-            }
+                    Symbol.DESCRIPTOR_ARR -> stack.pushRef(slots.getRef(slotIdx));
             default -> {
             }
         }

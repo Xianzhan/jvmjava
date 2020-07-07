@@ -71,11 +71,20 @@ public class LocalVars {
     }
 
     public JObject getRef(int index) {
-        return slots[index].ref;
+        // todo
+        var slot = slots[index];
+        if (slot == null) {
+            return null;
+        }
+        return slot.ref;
     }
 
     public void setSlot(int index, Slot slot) {
         slots[index] = slot;
+    }
+
+    public JObject getThis() {
+        return getRef(0);
     }
 
     @Override

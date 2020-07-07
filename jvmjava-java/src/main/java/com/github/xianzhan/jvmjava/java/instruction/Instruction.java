@@ -4,7 +4,6 @@ import com.github.xianzhan.jvmjava.java.runtime.Frame;
 import com.github.xianzhan.jvmjava.java.runtime.JThread;
 import com.github.xianzhan.jvmjava.java.runtime.heap.JClass;
 import com.github.xianzhan.jvmjava.java.runtime.heap.JMethod;
-import com.github.xianzhan.jvmjava.java.util.Symbol;
 
 /**
  * 指令接口
@@ -57,7 +56,7 @@ public interface Instruction {
      * @param invokerFrame 栈帧
      * @param method       待调用的方法
      */
-    default void invokeMethod(Frame invokerFrame, JMethod method) {
+    static void invokeMethod(Frame invokerFrame, JMethod method) {
         var thread = invokerFrame.thread();
         var frame = new Frame(thread, method);
         thread.pushFrame(frame);
@@ -68,19 +67,6 @@ public interface Instruction {
                 var slot = invokerFrame.operandStack().popSlot();
                 frame.localVars().setSlot(i, slot);
             }
-        }
-
-        // todo hack!
-        if (method.isNative()) {
-            if (Symbol.METHOD_REGISTER_NATIVES.equals(method.name())) {
-                thread.popFrame();
-                return;
-            }
-            throw new RuntimeException("native method: %s.%s%s".formatted(
-                    method.clazz().name,
-                    method.name(),
-                    method.descriptor()
-            ));
         }
     }
 

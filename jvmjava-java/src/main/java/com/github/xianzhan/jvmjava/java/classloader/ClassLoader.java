@@ -7,6 +7,7 @@ import com.github.xianzhan.jvmjava.java.runtime.Slot;
 import com.github.xianzhan.jvmjava.java.runtime.heap.JClass;
 import com.github.xianzhan.jvmjava.java.runtime.heap.JField;
 import com.github.xianzhan.jvmjava.java.runtime.heap.StringPool;
+import com.github.xianzhan.jvmjava.java.util.AccessFlags;
 import com.github.xianzhan.jvmjava.java.util.CollectionUtils;
 import com.github.xianzhan.jvmjava.java.util.Symbol;
 
@@ -14,10 +15,10 @@ import java.util.Map;
 
 /**
  * class names:
- *     - primitive types: boolean, byte, int ...
- *     - primitive arrays: [Z, [B, [I ...
- *     - non-array classes: java/lang/Object ...
- *     - array classes: [Ljava/lang/Object; ...
+ * ----- primitive types: boolean, byte, int ...
+ * ----- primitive arrays: [Z, [B, [I ...
+ * ----- non-array classes: java/lang/Object ...
+ * ----- array classes: [Ljava/lang/Object; ...
  *
  * @author xianzhan
  * @since 2020-06-23
@@ -32,6 +33,39 @@ public class ClassLoader {
         this.cp = cp;
         this.classMap = CollectionUtils.newHashMap();
         this.verboseClassFlag = verboseClassFlag;
+
+        loadBasicClasses();
+        loadPrimitiveClasses();
+    }
+
+    private void loadBasicClasses() {
+        var jlClass = loadClass(Symbol.CLASS_CLASS);
+        for (var clazz : classMap.values()) {
+            if (clazz.jClass() == null) {
+                clazz.jClass(jlClass.newObject());
+                clazz.jClass().extra(clazz);
+            }
+        }
+    }
+
+    private void loadPrimitiveClasses() {
+        loadPrimitiveClass(Symbol.VOID);
+        loadPrimitiveClass(Symbol.BOOLEAN);
+        loadPrimitiveClass(Symbol.BYTE);
+        loadPrimitiveClass(Symbol.SHORT);
+        loadPrimitiveClass(Symbol.INT);
+        loadPrimitiveClass(Symbol.LONG);
+        loadPrimitiveClass(Symbol.CHAR);
+        loadPrimitiveClass(Symbol.FLOAT);
+        loadPrimitiveClass(Symbol.DOUBLE);
+    }
+
+    private void loadPrimitiveClass(String className) {
+        var clazz = new JClass(AccessFlags.ACC_PUBLIC, className, this, true);
+        var jClass = classMap.get(Symbol.CLASS_CLASS).newObject();
+        clazz.jClass(jClass);
+        clazz.jClass().extra(clazz);
+        classMap.put(className, clazz);
     }
 
     public JClass loadClass(String name) {
@@ -42,10 +76,19 @@ public class ClassLoader {
 
         if (name.startsWith(Symbol.DESCRIPTOR_ARR)) {
             // array class
-            return loadArrayClass(name);
+            clazz = loadArrayClass(name);
+        } else {
+            clazz = loadNonArrayClass(name);
         }
 
-        return loadNonArrayClass(name);
+        // Object::getClass
+        var jlClass = classMap.get(Symbol.CLASS_CLASS);
+        if (jlClass != null) {
+            clazz.jClass(jlClass.newObject());
+            clazz.jClass().extra(clazz);
+        }
+
+        return clazz;
     }
 
     private JClass loadArrayClass(String name) {

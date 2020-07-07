@@ -152,6 +152,7 @@ import com.github.xianzhan.jvmjava.java.instruction.references.NewArrayInst;
 import com.github.xianzhan.jvmjava.java.instruction.references.NewInst;
 import com.github.xianzhan.jvmjava.java.instruction.references.PutfieldInst;
 import com.github.xianzhan.jvmjava.java.instruction.references.PutstaticInst;
+import com.github.xianzhan.jvmjava.java.instruction.reserved.InvokenativeInst;
 import com.github.xianzhan.jvmjava.java.instruction.stack.Dup2Inst;
 import com.github.xianzhan.jvmjava.java.instruction.stack.Dup2X1Inst;
 import com.github.xianzhan.jvmjava.java.instruction.stack.Dup2X2Inst;
@@ -513,7 +514,17 @@ public class InstructionReader {
             // jsr_w, 同 jsr, 忽略
             case ByteCodes.jsr_w -> throw new UnsupportedOperationException();
 
+            case ByteCodes.invokenative -> new InvokenativeInst();
+
             default -> null;
         };
+    }
+
+    public static Instruction read(int opCode) {
+        try {
+            return read(opCode, null, null);
+        } catch (java.lang.Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
