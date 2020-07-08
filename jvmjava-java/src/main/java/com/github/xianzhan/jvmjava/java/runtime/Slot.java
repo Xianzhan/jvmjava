@@ -28,6 +28,14 @@ public class Slot {
         this.ref = ref;
     }
 
+    public static Slot[] newSlots(int length) {
+        var slots = new Slot[length];
+        for (int i = 0; i < length; i++) {
+            slots[i] = new Slot(0);
+        }
+        return slots;
+    }
+
     @Override
     public String toString() {
         return "Slot{" +

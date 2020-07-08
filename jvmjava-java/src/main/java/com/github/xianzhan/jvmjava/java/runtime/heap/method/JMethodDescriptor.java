@@ -11,7 +11,7 @@ import java.util.List;
 public class JMethodDescriptor {
 
     public final List<String> parameterType;
-    String returnType;
+    public       String       returnType;
 
     public JMethodDescriptor() {
         parameterType = CollectionUtils.newArrayList();

@@ -25,11 +25,11 @@ public class JClass {
      * this class name
      */
     public final String        name;
-    public final String        superClassName;
-    public final String[]      interfaceNames;
-    public final JConstantPool constantPool;
-    public final JField[]      fields;
-    public final JMethod[]     methods;
+    public       String        superClassName;
+    public       String[]      interfaceNames;
+    public       JConstantPool constantPool;
+    public       JField[]      fields;
+    public       JMethod[]     methods;
     public       ClassLoader   loader;
     public       JClass        superClass;
     public       JClass[]      interfaces;
@@ -37,6 +37,7 @@ public class JClass {
     public       int           staticSlotCount;
     public       Slot[]        staticVars;
     private      boolean       initStarted;
+    private      JObject       jClass;
 
     /**
      * 用于加载普通对象
@@ -78,6 +79,21 @@ public class JClass {
         this.loader = loader;
     }
 
+    /**
+     * 用于加载原始类型
+     *
+     * @param accessFlags
+     * @param name
+     * @param loader
+     * @param initStarted
+     */
+    public JClass(int accessFlags, String name, ClassLoader loader, boolean initStarted) {
+        this.accessFlags = accessFlags;
+        this.name = name;
+        this.loader = loader;
+        this.initStarted = initStarted;
+    }
+
     public boolean isPublic() {
         return (accessFlags & AccessFlags.ACC_PUBLIC) != 0;
     }
@@ -108,6 +124,11 @@ public class JClass {
 
     public boolean isEnum() {
         return (accessFlags & AccessFlags.ACC_ENUM) != 0;
+    }
+
+    public boolean isPrimitive() {
+        var descriptor = Symbol.primitiveDescriptor(name);
+        return !descriptor.isEmpty();
     }
 
     public boolean isAccessibleTo(JClass other) {
@@ -163,8 +184,8 @@ public class JClass {
      * - 数组可以强制转换成 Object 类型（因为数组的超类是 Object）。
      * - 数组可以强制转换成 Cloneable 和 Serializable 类型（因为数组实现了这两个接口）。
      * - 如果下面两个条件之一成立，类型为 []SC 的数组可以强制转换成类型为 []TC 的数组：
-     *     - TC 和 SC 是同一个基本类型。
-     *     - TC 和 SC 都是引用类型，且SC可以强制转换成TC。
+     * ---- - TC 和 SC 是同一个基本类型。
+     * ---- - TC 和 SC 都是引用类型，且SC可以强制转换成TC。
      *
      * @param other other
      * @return boolean
@@ -228,6 +249,18 @@ public class JClass {
 
     // getters
 
+    public String javaName() {
+        return name.replace('/', '.');
+    }
+
+    public JObject jClass() {
+        return jClass;
+    }
+
+    public void jClass(JObject jClass) {
+        this.jClass = jClass;
+    }
+
     public String getPackageName() {
         var i = name.lastIndexOf('/');
         if (i >= 0) {
@@ -236,25 +269,25 @@ public class JClass {
         return "";
     }
 
+    private JMethod getMethod(String name, String descriptor, boolean isStatic) {
+        for (var c = this; c != null; c = c.superClass) {
+            for (var method : c.methods) {
+                if (method.isStatic() == isStatic &&
+                    method.name.equals(name) &&
+                    method.descriptor.equals(descriptor)) {
+                    return method;
+                }
+            }
+        }
+        return null;
+    }
+
     public JMethod getMainMethod() {
-        return getStaticMethod(Symbol.METHOD_MAIN, Symbol.DESCRIPTOR_STR_ARR_V);
+        return getMethod(Symbol.METHOD_MAIN, Symbol.DESCRIPTOR_STR_ARR_V, true);
     }
 
     public JMethod getClinitMethod() {
-        return getStaticMethod(Symbol.METHOD_CLINIT, Symbol.DESCRIPTOR_V_V);
-    }
-
-    private JMethod getStaticMethod(String name, String descriptor) {
-        for (var method : methods) {
-            if (method.isStatic() &&
-                Objects.equals(name, method.name) &&
-                Objects.equals(descriptor, method.descriptor)) {
-
-                return method;
-            }
-        }
-
-        return null;
+        return getMethod(Symbol.METHOD_CLINIT, Symbol.DESCRIPTOR_V_V, true);
     }
 
     public JConstantPool constantPool() {
@@ -308,6 +341,20 @@ public class JClass {
             }
         }
         return null;
+    }
+
+    public JObject getRefVar(String fieldName, String fieldDescriptor) {
+        var field = getField(fieldName, fieldDescriptor, true);
+        return staticVars[field.slotIdx].ref;
+    }
+
+    public void setRefVar(String fieldName, String fieldDescriptor, JObject ref) {
+        var field = getField(fieldName, fieldDescriptor, true);
+        staticVars[field.slotIdx] = new Slot(ref);
+    }
+
+    public JMethod getInstanceMethod(String name, String descriptor) {
+        return getMethod(name, descriptor, false);
     }
 
     // array

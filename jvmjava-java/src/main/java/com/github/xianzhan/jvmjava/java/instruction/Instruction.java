@@ -4,7 +4,6 @@ import com.github.xianzhan.jvmjava.java.runtime.Frame;
 import com.github.xianzhan.jvmjava.java.runtime.JThread;
 import com.github.xianzhan.jvmjava.java.runtime.heap.JClass;
 import com.github.xianzhan.jvmjava.java.runtime.heap.JMethod;
-import com.github.xianzhan.jvmjava.java.util.Symbol;
 
 /**
  * 指令接口
@@ -28,7 +27,8 @@ public interface Instruction {
      * @param offset 跳转位置
      */
     default void branch(Frame frame, int offset) {
-        var pc = frame.thread().getPc();
+        var thread = frame.thread();
+        var pc = thread.getPc();
         var nextPc = pc + offset;
         frame.nextPc(nextPc);
     }
@@ -57,30 +57,20 @@ public interface Instruction {
      * @param invokerFrame 栈帧
      * @param method       待调用的方法
      */
-    default void invokeMethod(Frame invokerFrame, JMethod method) {
+    static void invokeMethod(Frame invokerFrame, JMethod method) {
         var thread = invokerFrame.thread();
         var frame = new Frame(thread, method);
         thread.pushFrame(frame);
 
         var argSlotCount = method.argSlotCount();
         if (argSlotCount > 0) {
+            // 传递参数
+            var stack = invokerFrame.operandStack();
+            var localVars = frame.localVars();
             for (int i = argSlotCount - 1; i >= 0; i--) {
-                var slot = invokerFrame.operandStack().popSlot();
-                frame.localVars().setSlot(i, slot);
+                var slot = stack.popSlot();
+                localVars.setSlot(i, slot);
             }
-        }
-
-        // todo hack!
-        if (method.isNative()) {
-            if (Symbol.METHOD_REGISTER_NATIVES.equals(method.name())) {
-                thread.popFrame();
-                return;
-            }
-            throw new RuntimeException("native method: %s.%s%s".formatted(
-                    method.clazz().name,
-                    method.name(),
-                    method.descriptor()
-            ));
         }
     }
 

@@ -2,6 +2,7 @@ package com.github.xianzhan.jvmjava.java.instruction.constants;
 
 import com.github.xianzhan.jvmjava.java.instruction.Instruction;
 import com.github.xianzhan.jvmjava.java.runtime.Frame;
+import com.github.xianzhan.jvmjava.java.runtime.heap.CpClassRef;
 import com.github.xianzhan.jvmjava.java.runtime.heap.StringPool;
 
 /**
@@ -34,8 +35,10 @@ public class LdcInst implements Instruction {
         } else if (c.val instanceof String str) {
             var internedStr = StringPool.jString(clazz.loader, str);
             stack.pushRef(internedStr);
+        } else if (c.val instanceof CpClassRef classRef) {
+            var classObj = classRef.resolvedClass().jClass();
+            stack.pushRef(classObj);
         } else {
-            // CpClassRef
             // MethodType, MethodHandle
             throw new RuntimeException("todo: ldc" + c);
         }

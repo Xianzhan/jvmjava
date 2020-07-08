@@ -55,7 +55,12 @@ public class CpMethodRef extends CpMemberRef {
 
     public static JMethod lookupMethodInClass(JClass clazz, String name, String descriptor) {
         for (var c = clazz; c != null; c = c.superClass) {
-            for (var method : c.methods) {
+            var methods = c.methods;
+            if (methods == null) {
+                continue;
+            }
+
+            for (var method : methods) {
                 if (method.name.equals(name) && method.descriptor.equals(descriptor)) {
                     return method;
                 }

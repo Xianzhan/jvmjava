@@ -38,4 +38,15 @@ public class StringPool {
         var charArr = charArrObj.chars();
         return new String(charArr);
     }
+
+    public static JObject internString(JObject jStr) {
+        var string = string(jStr);
+        var internedStr = INTERNED_STRINGS.get(string);
+        if (internedStr != null) {
+            return internedStr;
+        }
+
+        INTERNED_STRINGS.put(string, jStr);
+        return jStr;
+    }
 }

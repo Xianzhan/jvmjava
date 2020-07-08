@@ -86,7 +86,7 @@ public class Interpreter {
         var className = method.clazz().name;
         var methodName = method.name();
         var pc = frame.thread().getPc();
-        System.out.println("""
+        System.out.print("""
                 %s.%s() #%2d %s
                 """.formatted(className, methodName, pc, inst));
     }

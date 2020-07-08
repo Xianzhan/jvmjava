@@ -79,9 +79,19 @@ public class OperandStack {
     }
 
     public JObject getRefFromTop(int n) {
-        var size = slots.size();
-        var index = size - 1 - n;
-        return slots.get(index).ref;
+        return slots.get(n).ref;
+    }
+
+    public void pushBoolean(boolean b) {
+        if (b) {
+            pushInt(1);
+        } else {
+            pushInt(0);
+        }
+    }
+
+    public boolean popBoolean() {
+        return popInt() == 1;
     }
 
     @Override

@@ -28,7 +28,12 @@ public class LocalVars {
     }
 
     public int getInt(int index) {
-        return slots[index].num;
+        var slot = slots[index];
+        if (slot == null) {
+            // 初始化
+            return 0;
+        }
+        return slot.num;
     }
 
     public void setFloat(int index, float f) {
@@ -71,11 +76,20 @@ public class LocalVars {
     }
 
     public JObject getRef(int index) {
-        return slots[index].ref;
+        // todo
+        var slot = slots[index];
+        if (slot == null) {
+            return null;
+        }
+        return slot.ref;
     }
 
     public void setSlot(int index, Slot slot) {
         slots[index] = slot;
+    }
+
+    public JObject getThis() {
+        return getRef(0);
     }
 
     @Override

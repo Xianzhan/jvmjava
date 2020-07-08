@@ -25,4 +25,9 @@ public class ALoadInst implements Instruction {
     public int offset() {
         return 2;
     }
+
+    @Override
+    public String toString() {
+        return "aload";
+    }
 }

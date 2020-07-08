@@ -1,11 +1,15 @@
 package com.github.xianzhan.jvmjava.java.runtime.heap;
 
-import com.github.xianzhan.jvmjava.java.util.AccessFlags;
+import com.github.xianzhan.jvmjava.java.bytecode.ByteCodes;
+import com.github.xianzhan.jvmjava.java.classfile.InstructionReader;
 import com.github.xianzhan.jvmjava.java.classfile.Member;
 import com.github.xianzhan.jvmjava.java.instruction.Instruction;
 import com.github.xianzhan.jvmjava.java.runtime.heap.method.JMethodDescriptorParser;
+import com.github.xianzhan.jvmjava.java.util.AccessFlags;
 import com.github.xianzhan.jvmjava.java.util.Symbol;
 
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,15 +31,50 @@ public class JMethod extends JClassMember {
         var methods = new JMethod[len];
         for (int i = 0; i < len; i++) {
             var cfMethod = cfMethods[i];
-            var method = new JMethod();
-            method.clazz = clazz;
-            method.copyMemberInfo(cfMethod);
-            method.copyAttributes(cfMethod);
-            method.calcArgSlotCount();
-
-            methods[i] = method;
+            methods[i] = newMethod(clazz, cfMethod);
         }
         return methods;
+    }
+
+    private static JMethod newMethod(JClass clazz, Member cfMethod) {
+        var method = new JMethod();
+        method.clazz = clazz;
+        method.copyMemberInfo(cfMethod);
+        method.copyAttributes(cfMethod);
+
+        var md = JMethodDescriptorParser.parseMethodDescriptor(method.descriptor);
+        method.calcArgSlotCount(md.parameterType);
+        if (method.isNative()) {
+            method.injectCodeAttribute(md.returnType);
+        }
+        return method;
+    }
+
+    private void injectCodeAttribute(String returnType) {
+        // todo 本地方法帧的操作数栈至少要能容纳返回值，为了简化代码，暂时给 maxStack 字段赋值为 4。
+        maxStack = 4;
+        maxLocals = argSlotCount;
+        var type = returnType.substring(0, 1);
+        switch (type) {
+            case Symbol.DESCRIPTOR_VOID -> codeMap = genCode(new int[]{ByteCodes.invokenative, ByteCodes.return_});
+            case Symbol.DESCRIPTOR_REF,
+                    Symbol.DESCRIPTOR_ARR -> codeMap = genCode(new int[]{ByteCodes.invokenative, ByteCodes.areturn});
+            case Symbol.DESCRIPTOR_DOUBLE -> codeMap = genCode(new int[]{ByteCodes.invokenative, ByteCodes.dreturn});
+            case Symbol.DESCRIPTOR_FLOAT -> codeMap = genCode(new int[]{ByteCodes.invokenative, ByteCodes.freturn});
+            case Symbol.DESCRIPTOR_LONG -> codeMap = genCode(new int[]{ByteCodes.invokenative, ByteCodes.lreturn});
+            default -> codeMap = genCode(new int[]{ByteCodes.invokenative, ByteCodes.ireturn});
+        }
+    }
+
+    private Map<Integer, Instruction> genCode(int[] opCodes) {
+        Map<Integer, Instruction> codeMap = new LinkedHashMap<>(opCodes.length);
+        int pc = 0;
+        for (var opCode : opCodes) {
+            var instruction = InstructionReader.read(opCode);
+            codeMap.put(pc, instruction);
+            pc += instruction.offset();
+        }
+        return codeMap;
     }
 
     public boolean isSynchronized() {
@@ -87,9 +126,8 @@ public class JMethod extends JClassMember {
         }
     }
 
-    private void calcArgSlotCount() {
-        var parsedDescriptor = JMethodDescriptorParser.parseMethodDescriptor(descriptor);
-        for (var paramType : parsedDescriptor.parameterType) {
+    private void calcArgSlotCount(List<String> parameterType) {
+        for (var paramType : parameterType) {
             argSlotCount++;
             if (Symbol.DESCRIPTOR_LONG.equals(paramType) || Symbol.DESCRIPTOR_DOUBLE.equals(paramType)) {
                 argSlotCount++;

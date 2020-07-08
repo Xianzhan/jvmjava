@@ -10,8 +10,10 @@ import com.github.xianzhan.jvmjava.java.runtime.Frame;
 public class ILoad1Inst implements Instruction {
     @Override
     public void execute(Frame frame) {
-        int v = frame.localVars().getInt(1);
-        frame.operandStack().pushInt(v);
+        var localVars = frame.localVars();
+        int v = localVars.getInt(1);
+        var stack = frame.operandStack();
+        stack.pushInt(v);
     }
 
     @Override

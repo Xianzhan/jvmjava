@@ -29,4 +29,9 @@ public class IfNonNullInst implements Instruction {
     public int offset() {
         return 3;
     }
+
+    @Override
+    public String toString() {
+        return "if_acmp_nonnull";
+    }
 }
