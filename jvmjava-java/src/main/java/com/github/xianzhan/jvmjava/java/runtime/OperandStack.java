@@ -79,6 +79,7 @@ public class OperandStack {
     }
 
     public JObject getRefFromTop(int n) {
+        // 获取离栈底第 n 个的引用
         return slots.get(n).ref;
     }
 
@@ -92,6 +93,10 @@ public class OperandStack {
 
     public boolean popBoolean() {
         return popInt() == 1;
+    }
+
+    public void clear() {
+        slots.clear();
     }
 
     @Override

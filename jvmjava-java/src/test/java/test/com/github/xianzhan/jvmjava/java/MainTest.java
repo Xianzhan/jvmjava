@@ -196,7 +196,7 @@ public class MainTest {
     public void testInterpretEightArgs() {
         Main.main(
                 "-cp", "src/test/resources/test/com/github/xianzhan/jvmjava/java/interpret/",
-                "-verbose:class",
+//                "-verbose:class",
                 "EightArgs",
                 "123", "你好, 世界"
         );
@@ -257,12 +257,28 @@ public class MainTest {
     public void testInterpretNineGetClass() {
         Main.main(
                 "-cp", "src/test/resources/test/com/github/xianzhan/jvmjava/java/interpret/",
-                "-verbose:class",
-                "-verbose:inst",
+//                "-verbose:class",
+//                "-verbose:inst",
                 "NineGetClass"
         );
     }
 
+    /**
+     * package lxz;
+     *
+     * public class NineString {
+     *     public static void main(String[] args) {
+     *         String s1 = "abc1";
+     *         String s2 = "abc1";
+     *         System.out.println(s1 == s2); // true
+     *         int x = 1;
+     *         String s3 = "abc" + x;
+     *         System.out.println(s1 == s3); // false
+     *         s3 = s3.intern();
+     *         System.out.println(s1 == s3); // true
+     *     }
+     * }
+     */
     @Test
     public void testInterpretNineString() {
         Main.main(
@@ -270,6 +286,42 @@ public class MainTest {
 //                "-verbose:class",
 //                "-verbose:inst",
                 "NineString"
+        );
+    }
+
+    /**
+     * package lxz;
+     *
+     * public class TenParseInt {
+     *     public static void main(String[] args) {
+     *         foo(args);
+     *     }
+     *
+     *     private static void foo(String[] args) {
+     *         try {
+     *             bar(args);
+     *         } catch (NumberFormatException e) {
+     *             System.out.println(e.getMessage());
+     *         }
+     *     }
+     *
+     *     private static void bar(String[] args) {
+     *         if (args.length == 0) {
+     *             throw new IndexOutOfBoundsException("no args!");
+     *         }
+     *         int x = Integer.parseInt(args[0]);
+     *         System.out.println(x);
+     *     }
+     * }
+     */
+    @Test
+    public void testInterpretTenParseInt() {
+        Main.main(
+                "-cp", "src/test/resources/test/com/github/xianzhan/jvmjava/java/interpret/",
+//                "-verbose:class",
+//                "-verbose:inst",
+                "TenParseInt"
+//                , "123"
         );
     }
 }

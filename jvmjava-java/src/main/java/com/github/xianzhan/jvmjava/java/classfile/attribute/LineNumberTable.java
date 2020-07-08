@@ -23,6 +23,16 @@ public class LineNumberTable extends Attribute {
         this.lines = lines;
     }
 
+    public int getLineNumber(int pc) {
+        for (var line : lines) {
+            var startPc = line.startPc;
+            if (pc >= startPc) {
+                return line.lineNumber;
+            }
+        }
+        return -1;
+    }
+
     public static class Line {
 
         public final int startPc;

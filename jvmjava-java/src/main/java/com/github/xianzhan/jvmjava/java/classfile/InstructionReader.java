@@ -35,6 +35,9 @@ import com.github.xianzhan.jvmjava.java.instruction.constants.IConst3Inst;
 import com.github.xianzhan.jvmjava.java.instruction.constants.IConst4Inst;
 import com.github.xianzhan.jvmjava.java.instruction.constants.IConst5Inst;
 import com.github.xianzhan.jvmjava.java.instruction.constants.IConstM1Inst;
+import com.github.xianzhan.jvmjava.java.instruction.constants.Int2ByteInst;
+import com.github.xianzhan.jvmjava.java.instruction.constants.Int2CharInst;
+import com.github.xianzhan.jvmjava.java.instruction.constants.Int2ShortInst;
 import com.github.xianzhan.jvmjava.java.instruction.constants.LConst0Inst;
 import com.github.xianzhan.jvmjava.java.instruction.constants.LConst1Inst;
 import com.github.xianzhan.jvmjava.java.instruction.constants.Ldc2WInst;
@@ -138,6 +141,7 @@ import com.github.xianzhan.jvmjava.java.instruction.math.LSubInst;
 import com.github.xianzhan.jvmjava.java.instruction.math.LUShRInst;
 import com.github.xianzhan.jvmjava.java.instruction.math.LXOrInst;
 import com.github.xianzhan.jvmjava.java.instruction.references.ANewArrayInst;
+import com.github.xianzhan.jvmjava.java.instruction.references.AThrowInst;
 import com.github.xianzhan.jvmjava.java.instruction.references.ArrayLengthInst;
 import com.github.xianzhan.jvmjava.java.instruction.references.CheckcastInst;
 import com.github.xianzhan.jvmjava.java.instruction.references.GetfieldInst;
@@ -372,9 +376,9 @@ public class InstructionReader {
             case ByteCodes.d2i -> new D2IInst();
             case ByteCodes.d2l -> new D2LInst();
             case ByteCodes.d2f -> new D2FInst();
-            case ByteCodes.int2byte -> throw new UnsupportedOperationException("int2byte");
-            case ByteCodes.int2char -> throw new UnsupportedOperationException("int2char");
-            case ByteCodes.int2short -> throw new UnsupportedOperationException("int2short");
+            case ByteCodes.int2byte -> new Int2ByteInst();
+            case ByteCodes.int2char -> new Int2CharInst();
+            case ByteCodes.int2short -> new Int2ShortInst();
 
             case ByteCodes.lcmp -> new LCmpInst();
             case ByteCodes.fcmpl -> new FCmpLInst();
@@ -473,7 +477,7 @@ public class InstructionReader {
             case ByteCodes.anewarray -> new ANewArrayInst(dis.readUnsignedShort());
             case ByteCodes.arraylength -> new ArrayLengthInst();
 
-            case ByteCodes.athrow -> throw new UnsupportedOperationException("athrow");
+            case ByteCodes.athrow -> new AThrowInst();
 
             case ByteCodes.checkcast -> {
                 var i = dis.readUnsignedShort();
@@ -502,7 +506,7 @@ public class InstructionReader {
                     case ByteCodes.lstore -> new WideInst(4, new LStoreInst(dis.readUnsignedShort()));
                     case ByteCodes.dstore -> new WideInst(4, new DStoreInst(dis.readUnsignedShort()));
                     // ret, ignore
-                    case ByteCodes.ret -> throw new UnsupportedOperationException();
+                    case ByteCodes.ret -> throw new UnsupportedOperationException("ret");
                     default -> throw new UnsupportedOperationException("wide op " + wideOpcode);
                 };
             }
@@ -512,7 +516,7 @@ public class InstructionReader {
             case ByteCodes.if_acmp_nonnull -> new IfNonNullInst(dis.readShort());
             case ByteCodes.goto_w -> new GotoWInst(dis.readInt());
             // jsr_w, 同 jsr, 忽略
-            case ByteCodes.jsr_w -> throw new UnsupportedOperationException();
+            case ByteCodes.jsr_w -> throw new UnsupportedOperationException("jsr_w");
 
             case ByteCodes.invokenative -> new InvokenativeInst();
 

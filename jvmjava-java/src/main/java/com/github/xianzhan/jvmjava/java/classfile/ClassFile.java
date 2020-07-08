@@ -1,6 +1,7 @@
 package com.github.xianzhan.jvmjava.java.classfile;
 
 import com.github.xianzhan.jvmjava.java.classfile.attribute.BootstrapMethods;
+import com.github.xianzhan.jvmjava.java.classfile.attribute.SourceFile;
 
 import java.util.stream.Stream;
 
@@ -152,6 +153,15 @@ public class ClassFile {
             return cpInfo.getClassName(superClass);
         }
         return "";
+    }
+
+    public SourceFile sourceFileAttribute() {
+        for (var attr : attributes.attributes) {
+            if (attr instanceof SourceFile sourceFile) {
+                return sourceFile;
+            }
+        }
+        return null;
     }
 
     /**

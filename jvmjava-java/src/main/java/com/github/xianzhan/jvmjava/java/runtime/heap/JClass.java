@@ -30,6 +30,7 @@ public class JClass {
     public       JConstantPool constantPool;
     public       JField[]      fields;
     public       JMethod[]     methods;
+    private      String        sourceFile;
     public       ClassLoader   loader;
     public       JClass        superClass;
     public       JClass[]      interfaces;
@@ -52,6 +53,7 @@ public class JClass {
         this.constantPool = new JConstantPool(this, cf.cpInfo);
         this.fields = JField.newFields(this, cf.fields.fields);
         this.methods = JMethod.newMethods(this, cf.methods.methods);
+        this.sourceFile = getSourceFile(cf);
     }
 
     /**
@@ -92,6 +94,14 @@ public class JClass {
         this.name = name;
         this.loader = loader;
         this.initStarted = initStarted;
+    }
+
+    private String getSourceFile(ClassFile cf) {
+        var sourceFile = cf.sourceFileAttribute();
+        if (sourceFile != null) {
+            return sourceFile.name;
+        }
+        return "Unknown";
     }
 
     public boolean isPublic() {
@@ -169,9 +179,11 @@ public class JClass {
     }
 
     public boolean isSubInterfaceOf(JClass iFace) {
-        for (var superInterface : interfaces) {
-            if (superInterface == iFace || superInterface.isSubInterfaceOf(iFace)) {
-                return true;
+        if (interfaces != null) {
+            for (var superInterface : interfaces) {
+                if (superInterface == iFace || superInterface.isSubInterfaceOf(iFace)) {
+                    return true;
+                }
             }
         }
         return false;
@@ -248,6 +260,10 @@ public class JClass {
     }
 
     // getters
+
+    public String sourceFile() {
+        return sourceFile;
+    }
 
     public String javaName() {
         return name.replace('/', '.');

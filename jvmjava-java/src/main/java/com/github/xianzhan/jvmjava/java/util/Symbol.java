@@ -51,6 +51,7 @@ public interface Symbol {
     String CLASS_OBJ                  = "java/lang/Object";
     String CLASS_STR                  = "java/lang/String";
     String CLASS_SYSTEM               = "java/lang/System";
+    String CLASS_THROWABLE            = "java/lang/Throwable";
     String CLASS_JAVA_UTIL_PROPERTIES = "java/util/Properties";
     String CLASS_SUN_MISC_VM          = "sun/misc/VM";
 
@@ -63,6 +64,7 @@ public interface Symbol {
     String METHOD_DESIRED_ASSERTION_STATUS_0 = "desiredAssertionStatus0";
     String METHOD_DOUBLE_TO_RAW_LONG_BITS    = "doubleToRawLongBits";
     String METHOD_FLOAT_TO_RAW_INT_BITS      = "floatToRawIntBits";
+    String METHOD_FILL_IN_STACK_TRACE        = "fillInStackTrace";
     String METHOD_GET_CLASS                  = "getClass";
     String METHOD_GET_NAME_0                 = "getName0";
     String METHOD_GET_PRIMITIVE_CLASS        = "getPrimitiveClass";
@@ -104,23 +106,24 @@ public interface Symbol {
     String DESCRIPTOR_JAVA_UTIL_PROPERTIES = "Ljava/util/Properties;";
 
     String DESCRIPTOR_V_INT   = "()I";
-    String DESCRIPTOR_V_V     = "()V";
     String DESCRIPTOR_V_CLASS = "()Ljava/lang/Class;";
     String DESCRIPTOR_V_OBJ   = "()Ljava/lang/Object;";
     String DESCRIPTOR_V_STR   = "()Ljava/lang/String;";
+    String DESCRIPTOR_V_V     = "()V";
 
-    String DESCRIPTOR_BYTE_V      = "(B)V";
-    String DESCRIPTOR_CHAR_V      = "(C)V";
-    String DESCRIPTOR_DOUBLE_LONG = "(D)J";
-    String DESCRIPTOR_DOUBLE_V    = "(D)V";
-    String DESCRIPTOR_FLOAT_INT   = "(F)I";
-    String DESCRIPTOR_FLOAT_V     = "(F)V";
-    String DESCRIPTOR_INT_FLOAT   = "(I)F";
-    String DESCRIPTOR_INT_V       = "(I)V";
-    String DESCRIPTOR_LONG_DOUBLE = "(J)D";
-    String DESCRIPTOR_LONG_V      = "(J)V";
-    String DESCRIPTOR_SHORT_V     = "(S)V";
-    String DESCRIPTOR_BOOLEAN_V   = "(Z)V";
+    String DESCRIPTOR_BYTE_V        = "(B)V";
+    String DESCRIPTOR_CHAR_V        = "(C)V";
+    String DESCRIPTOR_DOUBLE_LONG   = "(D)J";
+    String DESCRIPTOR_DOUBLE_V      = "(D)V";
+    String DESCRIPTOR_FLOAT_INT     = "(F)I";
+    String DESCRIPTOR_FLOAT_V       = "(F)V";
+    String DESCRIPTOR_INT_FLOAT     = "(I)F";
+    String DESCRIPTOR_INT_THROWABLE = "(I)Ljava/lang/Throwable;";
+    String DESCRIPTOR_INT_V         = "(I)V";
+    String DESCRIPTOR_LONG_DOUBLE   = "(J)D";
+    String DESCRIPTOR_LONG_V        = "(J)V";
+    String DESCRIPTOR_SHORT_V       = "(S)V";
+    String DESCRIPTOR_BOOLEAN_V     = "(Z)V";
 
     String DESCRIPTOR_CLASS_BOOLEAN         = "(Ljava/lang/Class;)Z";
     String DESCRIPTOR_OBJ_INT_OBJ_INT_INT_V = "(Ljava/lang/Object;ILjava/lang/Object;II)V";
@@ -155,6 +158,7 @@ public interface Symbol {
 
     // field
 
-    String FIELD_SAVED_PROPS = "savedProps";
-    String FIELD_VALUE       = "value";
+    String FIELD_DETAIL_MESSAGE = "detailMessage";
+    String FIELD_SAVED_PROPS    = "savedProps";
+    String FIELD_VALUE          = "value";
 }

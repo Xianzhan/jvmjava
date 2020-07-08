@@ -90,10 +90,10 @@ public class ClassReader {
             int descriptorIndex = dis.readUnsignedShort();
             int attributesCount = dis.readUnsignedShort();
 
-            Attributes attributes = readAttributes(dis, attributesCount, constantPool);
-
             String name = constantPool.getString(nameIndex);
             String descriptor = constantPool.getString(descriptorIndex);
+
+            Attributes attributes = readAttributes(dis, attributesCount, constantPool);
 
             methods.methods[i] = new Method(accessFlag, name, new Descriptor(descriptor), attributes);
         }
@@ -168,7 +168,7 @@ public class ClassReader {
                     for (int j = 0; j < length; j++) {
                         int startPc = dis.readUnsignedShort();
                         int lineNumber = dis.readUnsignedShort();
-                        lines[i] = new LineNumberTable.Line(startPc, lineNumber);
+                        lines[j] = new LineNumberTable.Line(startPc, lineNumber);
                     }
                     yield new LineNumberTable(lines);
                 }
@@ -222,7 +222,7 @@ public class ClassReader {
             } else {
                 classname = constantPool.getClassName(clazzIdx);
             }
-            var exception = new Exception(startPc, endPc, handlerPc, classname);
+            var exception = new Exception(startPc, endPc, handlerPc, clazzIdx, classname);
             exceptions[i] = exception;
         }
         return new ExceptionTable(exceptions);
