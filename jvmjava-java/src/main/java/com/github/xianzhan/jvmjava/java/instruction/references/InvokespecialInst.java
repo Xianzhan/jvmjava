@@ -39,14 +39,10 @@ public class InvokespecialInst implements Instruction {
         }
 
         var operandStack = frame.operandStack();
-///        var count = resolvedMethod.argSlotCount();
-        var ref = operandStack.getRefFromTop(0);
+        var count = resolvedMethod.argSlotCount();
+        var ref = operandStack.getRefFromTop(count - 1);
         if (ref == null) {
-            // todo
-            var primitive = currentClass.isPrimitive();
-            System.out.println(primitive);
-
-//            throw new NullPointerException();
+            throw new NullPointerException();
         }
         if (resolvedMethod.isProtected() &&
             resolvedMethod.clazz().isSuperClassOf(currentClass) &&

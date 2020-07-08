@@ -3,6 +3,7 @@ package com.github.xianzhan.jvmjava.java.runtime.heap;
 import com.github.xianzhan.jvmjava.java.bytecode.ByteCodes;
 import com.github.xianzhan.jvmjava.java.classfile.InstructionReader;
 import com.github.xianzhan.jvmjava.java.classfile.Member;
+import com.github.xianzhan.jvmjava.java.classfile.attribute.LineNumberTable;
 import com.github.xianzhan.jvmjava.java.instruction.Instruction;
 import com.github.xianzhan.jvmjava.java.runtime.heap.method.JMethodDescriptorParser;
 import com.github.xianzhan.jvmjava.java.util.AccessFlags;
@@ -25,6 +26,9 @@ public class JMethod extends JClassMember {
      * 参数插槽个数
      */
     private int                       argSlotCount;
+
+    private LineNumberTable    lineNumberTable;
+    private ExceptionHandler[] exceptionTable;
 
     public static JMethod[] newMethods(JClass clazz, Member[] cfMethods) {
         final int len = cfMethods.length;
@@ -117,12 +121,32 @@ public class JMethod extends JClassMember {
         return argSlotCount;
     }
 
+    public int findExceptionHandler(JClass exClass, int pc) {
+        var handler = ExceptionHandler.findExceptionHandler(exceptionTable, exClass, pc);
+        if (handler != null) {
+            return handler.handlerPc();
+        }
+        return -1;
+    }
+
+    public int getLineNumber(int pc) {
+        if (isNative()) {
+            return -2;
+        }
+        if (lineNumberTable == null) {
+            return -1;
+        }
+        return lineNumberTable.getLineNumber(pc);
+    }
+
     private void copyAttributes(Member method) {
         var code = method.codeAttribute();
         if (code != null) {
             maxStack = code.maxStack;
             maxLocals = code.maxLocals;
             codeMap = code.codeMap();
+            lineNumberTable = code.lineNumberTableAttribute();
+            exceptionTable = ExceptionHandler.newExceptionTable(code.exceptionTable, clazz.constantPool);
         }
     }
 

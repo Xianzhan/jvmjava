@@ -48,10 +48,12 @@ public class CpFieldRef extends CpMemberRef {
             }
         }
 
-        for (var iFace : c.interfaces) {
-            var jField = lookupField(iFace, name, descriptor);
-            if (jField != null) {
-                return jField;
+        if (c.interfaces != null) {
+            for (var iFace : c.interfaces) {
+                var jField = lookupField(iFace, name, descriptor);
+                if (jField != null) {
+                    return jField;
+                }
             }
         }
 

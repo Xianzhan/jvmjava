@@ -70,4 +70,13 @@ public class Code extends Attribute {
         }
         return map;
     }
+
+    public LineNumberTable lineNumberTableAttribute() {
+        for (var attr : attributes.attributes) {
+            if (attr instanceof LineNumberTable lineNumberTable) {
+                return lineNumberTable;
+            }
+        }
+        return null;
+    }
 }

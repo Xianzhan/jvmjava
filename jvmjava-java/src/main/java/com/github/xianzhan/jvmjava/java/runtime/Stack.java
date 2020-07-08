@@ -3,6 +3,7 @@ package com.github.xianzhan.jvmjava.java.runtime;
 import com.github.xianzhan.jvmjava.java.util.CollectionUtils;
 
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * JVM 虚拟机栈
@@ -46,6 +47,14 @@ public class Stack<E> {
 
     public boolean isEmpty() {
         return stack.isEmpty();
+    }
+
+    public void clear() {
+        stack.clear();
+    }
+
+    public List<E> getFrames() {
+        return stack;
     }
 
     @Override

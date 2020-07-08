@@ -20,6 +20,7 @@ public class InvokenativeInst implements Instruction {
             Class.forName("com.github.xianzhan.jvmjava.java.nativefunc.java.lang.Object");
             Class.forName("com.github.xianzhan.jvmjava.java.nativefunc.java.lang.String");
             Class.forName("com.github.xianzhan.jvmjava.java.nativefunc.java.lang.System");
+            Class.forName("com.github.xianzhan.jvmjava.java.nativefunc.java.lang.Throwable");
 
             // sun.misc
             Class.forName("com.github.xianzhan.jvmjava.java.nativefunc.sun.misc.VM");

@@ -1,5 +1,7 @@
 package com.github.xianzhan.jvmjava.java.runtime;
 
+import java.util.List;
+
 /**
  * 线程
  *
@@ -43,6 +45,10 @@ public class JThread {
         return stack.top();
     }
 
+    public List<Frame> getFrames() {
+        return stack.getFrames();
+    }
+
     public int getPc() {
         return pc;
     }
@@ -53,6 +59,10 @@ public class JThread {
 
     public boolean isStackEmpty() {
         return stack.isEmpty();
+    }
+
+    public void clearStack() {
+        stack.clear();
     }
 
     @Override
