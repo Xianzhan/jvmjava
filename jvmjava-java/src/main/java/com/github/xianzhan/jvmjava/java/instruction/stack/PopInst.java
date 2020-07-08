@@ -12,4 +12,9 @@ public class PopInst implements Instruction {
     public void execute(Frame frame) {
         frame.operandStack().popSlot();
     }
+
+    @Override
+    public String toString() {
+        return "pop";
+    }
 }

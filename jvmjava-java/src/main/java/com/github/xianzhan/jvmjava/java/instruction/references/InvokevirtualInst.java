@@ -42,8 +42,8 @@ public class InvokevirtualInst implements Instruction {
         }
 
         var operandStack = frame.operandStack();
-///        var argSlotCount = resolvedMethod.argSlotCount();
-        var ref = operandStack.getRefFromTop(0);
+        var argSlotCount = resolvedMethod.argSlotCount();
+        var ref = operandStack.getRefFromTop(argSlotCount - 1);
         if (ref == null) {
             // todo hack
             if (Symbol.METHOD_PRINTLN.equals(methodRef.name())) {

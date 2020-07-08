@@ -262,4 +262,14 @@ public class MainTest {
                 "NineGetClass"
         );
     }
+
+    @Test
+    public void testInterpretNineString() {
+        Main.main(
+                "-cp", "src/test/resources/test/com/github/xianzhan/jvmjava/java/interpret/",
+//                "-verbose:class",
+//                "-verbose:inst",
+                "NineString"
+        );
+    }
 }

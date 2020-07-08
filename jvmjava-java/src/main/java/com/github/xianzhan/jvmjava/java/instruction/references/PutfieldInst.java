@@ -38,7 +38,7 @@ public class PutfieldInst implements Instruction {
         var slotIdx = field.slotIdx;
         var stack = frame.operandStack();
 
-        switch (descriptor) {
+        switch (descriptor.substring(0, 1)) {
             case Symbol.DESCRIPTOR_BOOLEAN,
                     Symbol.DESCRIPTOR_BYTE,
                     Symbol.DESCRIPTOR_CHAR,

@@ -27,7 +27,8 @@ public interface Instruction {
      * @param offset 跳转位置
      */
     default void branch(Frame frame, int offset) {
-        var pc = frame.thread().getPc();
+        var thread = frame.thread();
+        var pc = thread.getPc();
         var nextPc = pc + offset;
         frame.nextPc(nextPc);
     }
@@ -63,9 +64,12 @@ public interface Instruction {
 
         var argSlotCount = method.argSlotCount();
         if (argSlotCount > 0) {
+            // 传递参数
+            var stack = invokerFrame.operandStack();
+            var localVars = frame.localVars();
             for (int i = argSlotCount - 1; i >= 0; i--) {
-                var slot = invokerFrame.operandStack().popSlot();
-                frame.localVars().setSlot(i, slot);
+                var slot = stack.popSlot();
+                localVars.setSlot(i, slot);
             }
         }
     }
