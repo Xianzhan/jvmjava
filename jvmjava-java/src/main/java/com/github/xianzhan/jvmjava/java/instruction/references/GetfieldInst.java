@@ -20,7 +20,7 @@ public class GetfieldInst implements Instruction {
     @Override
     public void execute(Frame frame) {
         var cp = frame.method().clazz().constantPool();
-        var fieldRef = (CpFieldRef) cp.getConstant(index).val;
+        var fieldRef = (CpFieldRef) cp.getConstant(index);
         var field = fieldRef.resoledField();
 
         if (field.isStatic()) {

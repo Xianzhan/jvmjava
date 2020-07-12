@@ -19,7 +19,7 @@ public class InvokestaticInst implements Instruction {
     @Override
     public void execute(Frame frame) {
         var cp = frame.method().clazz().constantPool();
-        var methodRef = (CpMethodRef) cp.getConstant(index).val;
+        var methodRef = (CpMethodRef) cp.getConstant(index);
         var resolvedMethod = methodRef.resolvedMethod();
         if (!resolvedMethod.isStatic()) {
             throw new IncompatibleClassChangeError();

@@ -19,7 +19,7 @@ public class NewInst implements Instruction {
     @Override
     public void execute(Frame frame) {
         var cp = frame.method().clazz().constantPool();
-        CpClassRef classRef = (CpClassRef) cp.getConstant(index).val;
+        CpClassRef classRef = (CpClassRef) cp.getConstant(index);
         var clazz = classRef.resolvedClass();
 
         if (!clazz.initStarted()) {

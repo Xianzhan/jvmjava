@@ -28,7 +28,7 @@ public class MultiANewArrayInst implements Instruction {
     @Override
     public void execute(Frame frame) {
         var cp = frame.method().clazz().constantPool();
-        var classRef = (CpClassRef) cp.getConstant(index).val;
+        var classRef = (CpClassRef) cp.getConstant(index);
         var arrClass = classRef.resolvedClass();
 
         var stack = frame.operandStack();

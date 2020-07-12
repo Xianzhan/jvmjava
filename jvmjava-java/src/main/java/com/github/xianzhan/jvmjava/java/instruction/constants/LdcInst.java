@@ -28,14 +28,14 @@ public class LdcInst implements Instruction {
         var cp = clazz.constantPool();
         var c = cp.getConstant(index);
 
-        if (c.val instanceof Integer i) {
+        if (c instanceof Integer i) {
             stack.pushInt(i);
-        } else if (c.val instanceof Float f) {
+        } else if (c instanceof Float f) {
             stack.pushFloat(f);
-        } else if (c.val instanceof String str) {
+        } else if (c instanceof String str) {
             var internedStr = StringPool.jString(clazz.loader, str);
             stack.pushRef(internedStr);
-        } else if (c.val instanceof CpClassRef classRef) {
+        } else if (c instanceof CpClassRef classRef) {
             var classObj = classRef.resolvedClass().jClass();
             stack.pushRef(classObj);
         } else {

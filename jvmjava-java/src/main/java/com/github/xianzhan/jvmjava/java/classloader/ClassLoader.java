@@ -213,23 +213,23 @@ public class ClassLoader {
                         Symbol.DESCRIPTOR_CHAR,
                         Symbol.DESCRIPTOR_SHORT,
                         Symbol.DESCRIPTOR_INT -> {
-                    int i = (int) cp.getConstant(cpIndex).val;
+                    int i = (int) cp.getConstant(cpIndex);
                     staticVars.setInt(slotIdx, i);
                 }
                 case Symbol.DESCRIPTOR_LONG -> {
-                    long l = (long) cp.getConstant(cpIndex).val;
+                    long l = (long) cp.getConstant(cpIndex);
                     staticVars.setLong(slotIdx, l);
                 }
                 case Symbol.DESCRIPTOR_FLOAT -> {
-                    float f = (float) cp.getConstant(cpIndex).val;
+                    float f = (float) cp.getConstant(cpIndex);
                     staticVars.setFloat(slotIdx, f);
                 }
                 case Symbol.DESCRIPTOR_DOUBLE -> {
-                    double d = (double) cp.getConstant(cpIndex).val;
+                    double d = (double) cp.getConstant(cpIndex);
                     staticVars.setDouble(slotIdx, d);
                 }
                 case Symbol.DESCRIPTOR_STR -> {
-                    var str = (String) cp.getConstant(cpIndex).val;
+                    var str = (String) cp.getConstant(cpIndex);
                     var jStr = StringPool.jString(clazz.loader, str);
                     staticVars.setRef(slotIdx, jStr);
                 }

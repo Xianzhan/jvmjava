@@ -25,7 +25,7 @@ public class InvokeinterfaceInst implements Instruction {
     @Override
     public void execute(Frame frame) {
         var cp = frame.method().clazz().constantPool();
-        var methodRef = (CpInterfaceMethodRef) cp.getConstant(index).val;
+        var methodRef = (CpInterfaceMethodRef) cp.getConstant(index);
         var resolveMethod = methodRef.resolvedInterfaceMethod();
         if (resolveMethod.isStatic() || resolveMethod.isPrivate()) {
             throw new IncompatibleClassChangeError(resolveMethod.name());

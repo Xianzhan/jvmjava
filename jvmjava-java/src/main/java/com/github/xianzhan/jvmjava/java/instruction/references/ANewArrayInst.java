@@ -19,7 +19,7 @@ public class ANewArrayInst implements Instruction {
     @Override
     public void execute(Frame frame) {
         var cp = frame.method().clazz().constantPool;
-        var classRef = (CpClassRef) cp.getConstant(index).val;
+        var classRef = (CpClassRef) cp.getConstant(index);
         var componentClass = classRef.resolvedClass();
 
         var stack = frame.operandStack();

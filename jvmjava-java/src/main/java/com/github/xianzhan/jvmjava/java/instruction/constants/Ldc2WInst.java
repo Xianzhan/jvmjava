@@ -24,9 +24,9 @@ public class Ldc2WInst implements Instruction {
         var cp = frame.method().clazz().constantPool();
         var c = cp.getConstant(index);
 
-        if (c.val instanceof Long l) {
+        if (c instanceof Long l) {
             stack.pushLong(l);
-        } else if (c.val instanceof Double d) {
+        } else if (c instanceof Double d) {
             stack.pushDouble(d);
         } else {
             throw new ClassFormatError(c.toString());

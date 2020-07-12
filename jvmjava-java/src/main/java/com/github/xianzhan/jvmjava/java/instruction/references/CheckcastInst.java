@@ -28,7 +28,7 @@ public class CheckcastInst implements Instruction {
         }
 
         var cp = frame.method().clazz().constantPool();
-        var classRef = (CpClassRef) cp.getConstant(index).val;
+        var classRef = (CpClassRef) cp.getConstant(index);
         var clazz = classRef.resolvedClass();
         if (!ref.isInstanceOf(clazz)) {
             throw new ClassCastException();

@@ -28,7 +28,7 @@ public class InvokespecialInst implements Instruction {
     public void execute(Frame frame) {
         var currentClass = frame.method().clazz();
         var cp = currentClass.constantPool();
-        var methodRef = (CpMethodRef) cp.getConstant(index).val;
+        var methodRef = (CpMethodRef) cp.getConstant(index);
         var resolvedClass = methodRef.resolvedClass();
         var resolvedMethod = methodRef.resolvedMethod();
         if (Symbol.METHOD_INIT.equals(resolvedMethod.name()) && !Objects.equals(resolvedMethod.clazz(), resolvedClass)) {

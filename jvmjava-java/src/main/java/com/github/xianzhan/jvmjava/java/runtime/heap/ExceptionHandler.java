@@ -64,7 +64,7 @@ public class ExceptionHandler {
             // catch all
             return null;
         }
-        var constant = cp.getConstant(index).val;
+        var constant = cp.getConstant(index);
         return (CpClassRef) constant;
     }
 }

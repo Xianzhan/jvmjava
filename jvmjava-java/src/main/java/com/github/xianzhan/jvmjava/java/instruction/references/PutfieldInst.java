@@ -22,7 +22,7 @@ public class PutfieldInst implements Instruction {
         var currentMethod = frame.method();
         var currentClass = currentMethod.clazz();
         var cp = currentClass.constantPool();
-        var fieldRef = (CpFieldRef) cp.getConstant(index).val;
+        var fieldRef = (CpFieldRef) cp.getConstant(index);
         var field = fieldRef.resoledField();
 
         if (field.isStatic()) {

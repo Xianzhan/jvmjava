@@ -29,7 +29,7 @@ public class InvokevirtualInst implements Instruction {
     public void execute(Frame frame) {
         var currentClass = frame.method().clazz();
         var cp = frame.method().clazz().constantPool();
-        var methodRef = (CpMethodRef) cp.getConstant(index).val;
+        var methodRef = (CpMethodRef) cp.getConstant(index);
         var resolvedMethod = methodRef.resolvedMethod();
         if (resolvedMethod.isStatic()) {
             throw new IncompatibleClassChangeError();
