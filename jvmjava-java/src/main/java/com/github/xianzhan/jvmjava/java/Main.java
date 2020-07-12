@@ -22,7 +22,7 @@ public class Main {
         }
 
         if (cmd.isVersion()) {
-            System.out.println("java version %i".formatted(8));
+            System.out.println("java version %d".formatted(8));
             return;
         }
 

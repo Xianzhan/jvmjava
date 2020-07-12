@@ -13,6 +13,8 @@ Windows 10
 [Adopt openjdk 8](https://adoptopenjdk.net/?variant=openjdk8&jvmVariant=hotspot)
 <br>
 [Apache Maven 3.6.3](https://maven.apache.org/download.cgi)
+<br>
+[IntelliJ IDEA](https://www.jetbrains.com/idea/)
 
 ## 环境变量
 
@@ -20,3 +22,9 @@ Windows 10
 %JAVA_HOME%  = ~\jdk\jdk-14
 %JAVA8_HOME% = ~\jdk\jdk-8.0.242.08-hotspot
 ```
+
+# 执行
+
+编译与运行都需要添加参数 `--enable-preview`
+
+[JEP 12: Preview Language and VM Features](http://openjdk.java.net/jeps/12)

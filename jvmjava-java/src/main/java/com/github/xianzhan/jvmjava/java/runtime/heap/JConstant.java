@@ -1,7 +1,5 @@
 package com.github.xianzhan.jvmjava.java.runtime.heap;
 
-import java.util.Objects;
-
 /**
  * @author xianzhan
  * @since 2020-06-24
@@ -20,6 +18,6 @@ public class JConstant {
 
     @Override
     public String toString() {
-        return "JConstant#" + Objects.toString(val);
+        return "JConstant#" + val;
     }
 }
