@@ -214,24 +214,205 @@ import java.util.Map;
  */
 public class InstructionReader {
 
+    private static final Instruction nop = new NopInst();
+
+    private static final Instruction aconst_null = new AConstNullInst();
+
+    private static final Instruction iconst_m1 = new IConstM1Inst();
+    private static final Instruction iconst_0  = new IConst0Inst();
+    private static final Instruction iconst_1  = new IConst1Inst();
+    private static final Instruction iconst_2  = new IConst2Inst();
+    private static final Instruction iconst_3  = new IConst3Inst();
+    private static final Instruction iconst_4  = new IConst4Inst();
+    private static final Instruction iconst_5  = new IConst5Inst();
+
+    private static final Instruction lconst_0 = new LConst0Inst();
+    private static final Instruction lconst_1 = new LConst1Inst();
+
+    private static final Instruction fconst_0 = new FConst0Inst();
+    private static final Instruction fconst_1 = new FConst1Inst();
+    private static final Instruction fconst_2 = new FConst2Inst();
+
+    private static final Instruction dconst_0 = new DConst0Inst();
+    private static final Instruction dconst_1 = new DConst1Inst();
+
+    private static final Instruction iload_0 = new ILoad0Inst();
+    private static final Instruction iload_1 = new ILoad1Inst();
+    private static final Instruction iload_2 = new ILoad2Inst();
+    private static final Instruction iload_3 = new ILoad3Inst();
+
+    private static final Instruction lload_0 = new LLoad0Inst();
+    private static final Instruction lload_1 = new LLoad1Inst();
+    private static final Instruction lload_2 = new LLoad2Inst();
+    private static final Instruction lload_3 = new LLoad3Inst();
+
+    private static final Instruction fload_0 = new FLoad0Inst();
+    private static final Instruction fload_1 = new FLoad1Inst();
+    private static final Instruction fload_2 = new FLoad2Inst();
+    private static final Instruction fload_3 = new FLoad3Inst();
+
+    private static final Instruction dload_0 = new DLoad0Inst();
+    private static final Instruction dload_1 = new DLoad1Inst();
+    private static final Instruction dload_2 = new DLoad2Inst();
+    private static final Instruction dload_3 = new DLoad3Inst();
+
+    private static final Instruction aload_0 = new ALoad0Inst();
+    private static final Instruction aload_1 = new ALoad1Inst();
+    private static final Instruction aload_2 = new ALoad2Inst();
+    private static final Instruction aload_3 = new ALoad3Inst();
+
+    private static final Instruction iaload = new IALoadInst();
+    private static final Instruction laload = new LALoadInst();
+    private static final Instruction faload = new FALoadInst();
+    private static final Instruction daload = new DALoadInst();
+    private static final Instruction aaload = new AALoadInst();
+    private static final Instruction baload = new BALoadInst();
+    private static final Instruction caload = new CALoadInst();
+    private static final Instruction saload = new SALoadInst();
+
+    private static final Instruction istore_0 = new IStore0Inst();
+    private static final Instruction istore_1 = new IStore1Inst();
+    private static final Instruction istore_2 = new IStore2Inst();
+    private static final Instruction istore_3 = new IStore3Inst();
+
+    private static final Instruction lstore_0 = new LStore0Inst();
+    private static final Instruction lstore_1 = new LStore1Inst();
+    private static final Instruction lstore_2 = new LStore2Inst();
+    private static final Instruction lstore_3 = new LStore3Inst();
+
+    private static final Instruction fstore_0 = new FStore0Inst();
+    private static final Instruction fstore_1 = new FStore1Inst();
+    private static final Instruction fstore_2 = new FStore2Inst();
+    private static final Instruction fstore_3 = new FStore3Inst();
+
+    private static final Instruction dstore_0 = new DStore0Inst();
+    private static final Instruction dstore_1 = new DStore1Inst();
+    private static final Instruction dstore_2 = new DStore2Inst();
+    private static final Instruction dstore_3 = new DStore3Inst();
+
+    private static final Instruction astore_0 = new AStore0Inst();
+    private static final Instruction astore_1 = new AStore1Inst();
+    private static final Instruction astore_2 = new AStore2Inst();
+    private static final Instruction astore_3 = new AStore3Inst();
+
+    private static final Instruction iastore = new IAStoreInst();
+    private static final Instruction lastore = new LAStoreInst();
+    private static final Instruction fastore = new FAStoreInst();
+    private static final Instruction dastore = new DAStoreInst();
+    private static final Instruction aastore = new AAStoreInst();
+    private static final Instruction bastore = new BAStoreInst();
+    private static final Instruction castore = new CAStoreInst();
+    private static final Instruction sastore = new SAStoreInst();
+
+    private static final Instruction pop     = new PopInst();
+    private static final Instruction pop2    = new Pop2Inst();
+    private static final Instruction dup     = new DupInst();
+    private static final Instruction dup_x1  = new DupX1Inst();
+    private static final Instruction dup_x2  = new DupX2Inst();
+    private static final Instruction dup2    = new Dup2Inst();
+    private static final Instruction dup2_x1 = new Dup2X1Inst();
+    private static final Instruction dup2_x2 = new Dup2X2Inst();
+    private static final Instruction swap    = new SwapInst();
+
+    private static final Instruction iadd = new IAddInst();
+    private static final Instruction ladd = new LAddInst();
+    private static final Instruction fadd = new FAddInst();
+    private static final Instruction dadd = new DAddInst();
+
+    private static final Instruction isub = new ISubInst();
+    private static final Instruction lsub = new LSubInst();
+    private static final Instruction fsub = new FSubInst();
+    private static final Instruction dsub = new DSubInst();
+
+    private static final Instruction imul = new IMulInst();
+    private static final Instruction lmul = new LMulInst();
+    private static final Instruction fmul = new FMulInst();
+    private static final Instruction dmul = new DMulInst();
+
+    private static final Instruction idiv = new IDivInst();
+    private static final Instruction ldiv = new LDivInst();
+    private static final Instruction fdiv = new FDivInst();
+    private static final Instruction ddiv = new DDivInst();
+
+    private static final Instruction imod = new IRemInst();
+    private static final Instruction lmod = new LRemInst();
+    private static final Instruction fmod = new FRemInst();
+    private static final Instruction dmod = new DRemInst();
+
+    private static final Instruction ineg = new INegInst();
+    private static final Instruction lneg = new LNegInst();
+    private static final Instruction fneg = new FNegInst();
+    private static final Instruction dneg = new DNegInst();
+
+    private static final Instruction ishl  = new IShLInst();
+    private static final Instruction lshl  = new LShLInst();
+    private static final Instruction ishr  = new IShRInst();
+    private static final Instruction lshr  = new LShRInst();
+    private static final Instruction iushr = new IUShRInst();
+    private static final Instruction lushr = new LUShRInst();
+
+    private static final Instruction iand = new IAndInst();
+    private static final Instruction land = new LAndInst();
+    private static final Instruction ior  = new IOrInst();
+    private static final Instruction lor  = new LOrInst();
+    private static final Instruction ixor = new IXOrInst();
+    private static final Instruction lxor = new LXOrInst();
+
+    private static final Instruction i2l       = new I2LInst();
+    private static final Instruction i2f       = new I2FInst();
+    private static final Instruction i2d       = new I2DInst();
+    private static final Instruction l2i       = new L2IInst();
+    private static final Instruction l2f       = new L2FInst();
+    private static final Instruction l2d       = new L2DInst();
+    private static final Instruction f2i       = new F2IInst();
+    private static final Instruction f2l       = new F2LInst();
+    private static final Instruction f2d       = new F2DInst();
+    private static final Instruction d2i       = new D2IInst();
+    private static final Instruction d2l       = new D2LInst();
+    private static final Instruction d2f       = new D2FInst();
+    private static final Instruction int2byte  = new Int2ByteInst();
+    private static final Instruction int2char  = new Int2CharInst();
+    private static final Instruction int2short = new Int2ShortInst();
+
+    private static final Instruction lcmp  = new LCmpInst();
+    private static final Instruction fcmpl = new FCmpLInst();
+    private static final Instruction fcmpg = new FCmpGInst();
+    private static final Instruction dcmpl = new DCmpLInst();
+    private static final Instruction dcmpg = new DCmpGInst();
+
+    private static final Instruction ireturn = new IReturnInst();
+    private static final Instruction lreturn = new LReturnInst();
+    private static final Instruction freturn = new FReturnInst();
+    private static final Instruction dreturn = new DReturnInst();
+    private static final Instruction areturn = new AReturnInst();
+    private static final Instruction return_ = new ReturnInst();
+
+    private static final Instruction arraylength = new ArrayLengthInst();
+
+    private static final Instruction athrow = new AThrowInst();
+
+    private static final Instruction invokenative = new InvokenativeInst();
+
+    // ------ 常量 ------
+
     public static Instruction read(int opCode, DataInputStream dis, ConstantPool constantPool) throws IOException {
         return switch (opCode) {
-            case ByteCodes.nop -> new NopInst();
-            case ByteCodes.aconst_null -> new AConstNullInst();
-            case ByteCodes.iconst_m1 -> new IConstM1Inst();
-            case ByteCodes.iconst_0 -> new IConst0Inst();
-            case ByteCodes.iconst_1 -> new IConst1Inst();
-            case ByteCodes.iconst_2 -> new IConst2Inst();
-            case ByteCodes.iconst_3 -> new IConst3Inst();
-            case ByteCodes.iconst_4 -> new IConst4Inst();
-            case ByteCodes.iconst_5 -> new IConst5Inst();
-            case ByteCodes.lconst_0 -> new LConst0Inst();
-            case ByteCodes.lconst_1 -> new LConst1Inst();
-            case ByteCodes.fconst_0 -> new FConst0Inst();
-            case ByteCodes.fconst_1 -> new FConst1Inst();
-            case ByteCodes.fconst_2 -> new FConst2Inst();
-            case ByteCodes.dconst_0 -> new DConst0Inst();
-            case ByteCodes.dconst_1 -> new DConst1Inst();
+            case ByteCodes.nop -> nop;
+            case ByteCodes.aconst_null -> aconst_null;
+            case ByteCodes.iconst_m1 -> iconst_m1;
+            case ByteCodes.iconst_0 -> iconst_0;
+            case ByteCodes.iconst_1 -> iconst_1;
+            case ByteCodes.iconst_2 -> iconst_2;
+            case ByteCodes.iconst_3 -> iconst_3;
+            case ByteCodes.iconst_4 -> iconst_4;
+            case ByteCodes.iconst_5 -> iconst_5;
+            case ByteCodes.lconst_0 -> lconst_0;
+            case ByteCodes.lconst_1 -> lconst_1;
+            case ByteCodes.fconst_0 -> fconst_0;
+            case ByteCodes.fconst_1 -> fconst_1;
+            case ByteCodes.fconst_2 -> fconst_2;
+            case ByteCodes.dconst_0 -> dconst_0;
+            case ByteCodes.dconst_1 -> dconst_1;
 
             case ByteCodes.bipush -> new BIPushInst(dis.readByte());
             case ByteCodes.sipush -> new SIPushInst(dis.readShort());
@@ -245,146 +426,146 @@ public class InstructionReader {
             case ByteCodes.fload -> new FLoadInst(dis.readUnsignedByte());
             case ByteCodes.dload -> new DLoadInst(dis.readUnsignedByte());
             case ByteCodes.aload -> new ALoadInst(dis.readUnsignedByte());
-            case ByteCodes.iload_0 -> new ILoad0Inst();
-            case ByteCodes.iload_1 -> new ILoad1Inst();
-            case ByteCodes.iload_2 -> new ILoad2Inst();
-            case ByteCodes.iload_3 -> new ILoad3Inst();
-            case ByteCodes.lload_0 -> new LLoad0Inst();
-            case ByteCodes.lload_1 -> new LLoad1Inst();
-            case ByteCodes.lload_2 -> new LLoad2Inst();
-            case ByteCodes.lload_3 -> new LLoad3Inst();
-            case ByteCodes.fload_0 -> new FLoad0Inst();
-            case ByteCodes.fload_1 -> new FLoad1Inst();
-            case ByteCodes.fload_2 -> new FLoad2Inst();
-            case ByteCodes.fload_3 -> new FLoad3Inst();
-            case ByteCodes.dload_0 -> new DLoad0Inst();
-            case ByteCodes.dload_1 -> new DLoad1Inst();
-            case ByteCodes.dload_2 -> new DLoad2Inst();
-            case ByteCodes.dload_3 -> new DLoad3Inst();
-            case ByteCodes.aload_0 -> new ALoad0Inst();
-            case ByteCodes.aload_1 -> new ALoad1Inst();
-            case ByteCodes.aload_2 -> new ALoad2Inst();
-            case ByteCodes.aload_3 -> new ALoad3Inst();
-            case ByteCodes.iaload -> new IALoadInst();
-            case ByteCodes.laload -> new LALoadInst();
-            case ByteCodes.faload -> new FALoadInst();
-            case ByteCodes.daload -> new DALoadInst();
-            case ByteCodes.aaload -> new AALoadInst();
-            case ByteCodes.baload -> new BALoadInst();
-            case ByteCodes.caload -> new CALoadInst();
-            case ByteCodes.saload -> new SALoadInst();
+            case ByteCodes.iload_0 -> iload_0;
+            case ByteCodes.iload_1 -> iload_1;
+            case ByteCodes.iload_2 -> iload_2;
+            case ByteCodes.iload_3 -> iload_3;
+            case ByteCodes.lload_0 -> lload_0;
+            case ByteCodes.lload_1 -> lload_1;
+            case ByteCodes.lload_2 -> lload_2;
+            case ByteCodes.lload_3 -> lload_3;
+            case ByteCodes.fload_0 -> fload_0;
+            case ByteCodes.fload_1 -> fload_1;
+            case ByteCodes.fload_2 -> fload_2;
+            case ByteCodes.fload_3 -> fload_3;
+            case ByteCodes.dload_0 -> dload_0;
+            case ByteCodes.dload_1 -> dload_1;
+            case ByteCodes.dload_2 -> dload_2;
+            case ByteCodes.dload_3 -> dload_3;
+            case ByteCodes.aload_0 -> aload_0;
+            case ByteCodes.aload_1 -> aload_1;
+            case ByteCodes.aload_2 -> aload_2;
+            case ByteCodes.aload_3 -> aload_3;
+            case ByteCodes.iaload -> iaload;
+            case ByteCodes.laload -> laload;
+            case ByteCodes.faload -> faload;
+            case ByteCodes.daload -> daload;
+            case ByteCodes.aaload -> aaload;
+            case ByteCodes.baload -> baload;
+            case ByteCodes.caload -> caload;
+            case ByteCodes.saload -> saload;
 
             case ByteCodes.istore -> new IStoreInst(dis.readUnsignedByte());
             case ByteCodes.lstore -> new LStoreInst(dis.readUnsignedByte());
             case ByteCodes.fstore -> new FStoreInst(dis.readUnsignedByte());
             case ByteCodes.dstore -> new DStoreInst(dis.readUnsignedByte());
             case ByteCodes.astore -> new AStoreInst(dis.readUnsignedByte());
-            case ByteCodes.istore_0 -> new IStore0Inst();
-            case ByteCodes.istore_1 -> new IStore1Inst();
-            case ByteCodes.istore_2 -> new IStore2Inst();
-            case ByteCodes.istore_3 -> new IStore3Inst();
-            case ByteCodes.lstore_0 -> new LStore0Inst();
-            case ByteCodes.lstore_1 -> new LStore1Inst();
-            case ByteCodes.lstore_2 -> new LStore2Inst();
-            case ByteCodes.lstore_3 -> new LStore3Inst();
-            case ByteCodes.fstore_0 -> new FStore0Inst();
-            case ByteCodes.fstore_1 -> new FStore1Inst();
-            case ByteCodes.fstore_2 -> new FStore2Inst();
-            case ByteCodes.fstore_3 -> new FStore3Inst();
-            case ByteCodes.dstore_0 -> new DStore0Inst();
-            case ByteCodes.dstore_1 -> new DStore1Inst();
-            case ByteCodes.dstore_2 -> new DStore2Inst();
-            case ByteCodes.dstore_3 -> new DStore3Inst();
-            case ByteCodes.astore_0 -> new AStore0Inst();
-            case ByteCodes.astore_1 -> new AStore1Inst();
-            case ByteCodes.astore_2 -> new AStore2Inst();
-            case ByteCodes.astore_3 -> new AStore3Inst();
-            case ByteCodes.iastore -> new IAStoreInst();
-            case ByteCodes.lastore -> new LAStoreInst();
-            case ByteCodes.fastore -> new FAStoreInst();
-            case ByteCodes.dastore -> new DAStoreInst();
-            case ByteCodes.aastore -> new AAStoreInst();
-            case ByteCodes.bastore -> new BAStoreInst();
-            case ByteCodes.castore -> new CAStoreInst();
-            case ByteCodes.sastore -> new SAStoreInst();
+            case ByteCodes.istore_0 -> istore_0;
+            case ByteCodes.istore_1 -> istore_1;
+            case ByteCodes.istore_2 -> istore_2;
+            case ByteCodes.istore_3 -> istore_3;
+            case ByteCodes.lstore_0 -> lstore_0;
+            case ByteCodes.lstore_1 -> lstore_1;
+            case ByteCodes.lstore_2 -> lstore_2;
+            case ByteCodes.lstore_3 -> lstore_3;
+            case ByteCodes.fstore_0 -> fstore_0;
+            case ByteCodes.fstore_1 -> fstore_1;
+            case ByteCodes.fstore_2 -> fstore_2;
+            case ByteCodes.fstore_3 -> fstore_3;
+            case ByteCodes.dstore_0 -> dstore_0;
+            case ByteCodes.dstore_1 -> dstore_1;
+            case ByteCodes.dstore_2 -> dstore_2;
+            case ByteCodes.dstore_3 -> dstore_3;
+            case ByteCodes.astore_0 -> astore_0;
+            case ByteCodes.astore_1 -> astore_1;
+            case ByteCodes.astore_2 -> astore_2;
+            case ByteCodes.astore_3 -> astore_3;
+            case ByteCodes.iastore -> iastore;
+            case ByteCodes.lastore -> lastore;
+            case ByteCodes.fastore -> fastore;
+            case ByteCodes.dastore -> dastore;
+            case ByteCodes.aastore -> aastore;
+            case ByteCodes.bastore -> bastore;
+            case ByteCodes.castore -> castore;
+            case ByteCodes.sastore -> sastore;
 
-            case ByteCodes.pop -> new PopInst();
-            case ByteCodes.pop2 -> new Pop2Inst();
-            case ByteCodes.dup -> new DupInst();
-            case ByteCodes.dup_x1 -> new DupX1Inst();
-            case ByteCodes.dup_x2 -> new DupX2Inst();
-            case ByteCodes.dup2 -> new Dup2Inst();
-            case ByteCodes.dup2_x1 -> new Dup2X1Inst();
-            case ByteCodes.dup2_x2 -> new Dup2X2Inst();
-            case ByteCodes.swap -> new SwapInst();
+            case ByteCodes.pop -> pop;
+            case ByteCodes.pop2 -> pop2;
+            case ByteCodes.dup -> dup;
+            case ByteCodes.dup_x1 -> dup_x1;
+            case ByteCodes.dup_x2 -> dup_x2;
+            case ByteCodes.dup2 -> dup2;
+            case ByteCodes.dup2_x1 -> dup2_x1;
+            case ByteCodes.dup2_x2 -> dup2_x2;
+            case ByteCodes.swap -> swap;
 
-            case ByteCodes.iadd -> new IAddInst();
-            case ByteCodes.ladd -> new LAddInst();
-            case ByteCodes.fadd -> new FAddInst();
-            case ByteCodes.dadd -> new DAddInst();
+            case ByteCodes.iadd -> iadd;
+            case ByteCodes.ladd -> ladd;
+            case ByteCodes.fadd -> fadd;
+            case ByteCodes.dadd -> dadd;
 
-            case ByteCodes.isub -> new ISubInst();
-            case ByteCodes.lsub -> new LSubInst();
-            case ByteCodes.fsub -> new FSubInst();
-            case ByteCodes.dsub -> new DSubInst();
+            case ByteCodes.isub -> isub;
+            case ByteCodes.lsub -> lsub;
+            case ByteCodes.fsub -> fsub;
+            case ByteCodes.dsub -> dsub;
 
-            case ByteCodes.imul -> new IMulInst();
-            case ByteCodes.lmul -> new LMulInst();
-            case ByteCodes.fmul -> new FMulInst();
-            case ByteCodes.dmul -> new DMulInst();
+            case ByteCodes.imul -> imul;
+            case ByteCodes.lmul -> lmul;
+            case ByteCodes.fmul -> fmul;
+            case ByteCodes.dmul -> dmul;
 
-            case ByteCodes.idiv -> new IDivInst();
-            case ByteCodes.ldiv -> new LDivInst();
-            case ByteCodes.fdiv -> new FDivInst();
-            case ByteCodes.ddiv -> new DDivInst();
+            case ByteCodes.idiv -> idiv;
+            case ByteCodes.ldiv -> ldiv;
+            case ByteCodes.fdiv -> fdiv;
+            case ByteCodes.ddiv -> ddiv;
 
-            case ByteCodes.imod -> new IRemInst();
-            case ByteCodes.lmod -> new LRemInst();
-            case ByteCodes.fmod -> new FRemInst();
-            case ByteCodes.dmod -> new DRemInst();
+            case ByteCodes.imod -> imod;
+            case ByteCodes.lmod -> lmod;
+            case ByteCodes.fmod -> fmod;
+            case ByteCodes.dmod -> dmod;
 
-            case ByteCodes.ineg -> new INegInst();
-            case ByteCodes.lneg -> new LNegInst();
-            case ByteCodes.fneg -> new FNegInst();
-            case ByteCodes.dneg -> new DNegInst();
+            case ByteCodes.ineg -> ineg;
+            case ByteCodes.lneg -> lneg;
+            case ByteCodes.fneg -> fneg;
+            case ByteCodes.dneg -> dneg;
 
-            case ByteCodes.ishl -> new IShLInst();
-            case ByteCodes.lshl -> new LShLInst();
-            case ByteCodes.ishr -> new IShRInst();
-            case ByteCodes.lshr -> new LShRInst();
-            case ByteCodes.iushr -> new IUShRInst();
-            case ByteCodes.lushr -> new LUShRInst();
+            case ByteCodes.ishl -> ishl;
+            case ByteCodes.lshl -> lshl;
+            case ByteCodes.ishr -> ishr;
+            case ByteCodes.lshr -> lshr;
+            case ByteCodes.iushr -> iushr;
+            case ByteCodes.lushr -> lushr;
 
-            case ByteCodes.iand -> new IAndInst();
-            case ByteCodes.land -> new LAndInst();
-            case ByteCodes.ior -> new IOrInst();
-            case ByteCodes.lor -> new LOrInst();
-            case ByteCodes.ixor -> new IXOrInst();
-            case ByteCodes.lxor -> new LXOrInst();
+            case ByteCodes.iand -> iand;
+            case ByteCodes.land -> land;
+            case ByteCodes.ior -> ior;
+            case ByteCodes.lor -> lor;
+            case ByteCodes.ixor -> ixor;
+            case ByteCodes.lxor -> lxor;
 
             case ByteCodes.iinc -> new IIncInst(dis.readUnsignedByte(), dis.readByte());
 
-            case ByteCodes.i2l -> new I2LInst();
-            case ByteCodes.i2f -> new I2FInst();
-            case ByteCodes.i2d -> new I2DInst();
-            case ByteCodes.l2i -> new L2IInst();
-            case ByteCodes.l2f -> new L2FInst();
-            case ByteCodes.l2d -> new L2DInst();
-            case ByteCodes.f2i -> new F2IInst();
-            case ByteCodes.f2l -> new F2LInst();
-            case ByteCodes.f2d -> new F2DInst();
-            case ByteCodes.d2i -> new D2IInst();
-            case ByteCodes.d2l -> new D2LInst();
-            case ByteCodes.d2f -> new D2FInst();
-            case ByteCodes.int2byte -> new Int2ByteInst();
-            case ByteCodes.int2char -> new Int2CharInst();
-            case ByteCodes.int2short -> new Int2ShortInst();
+            case ByteCodes.i2l -> i2l;
+            case ByteCodes.i2f -> i2f;
+            case ByteCodes.i2d -> i2d;
+            case ByteCodes.l2i -> l2i;
+            case ByteCodes.l2f -> l2f;
+            case ByteCodes.l2d -> l2d;
+            case ByteCodes.f2i -> f2i;
+            case ByteCodes.f2l -> f2l;
+            case ByteCodes.f2d -> f2d;
+            case ByteCodes.d2i -> d2i;
+            case ByteCodes.d2l -> d2l;
+            case ByteCodes.d2f -> d2f;
+            case ByteCodes.int2byte -> int2byte;
+            case ByteCodes.int2char -> int2char;
+            case ByteCodes.int2short -> int2short;
 
-            case ByteCodes.lcmp -> new LCmpInst();
-            case ByteCodes.fcmpl -> new FCmpLInst();
-            case ByteCodes.fcmpg -> new FCmpGInst();
-            case ByteCodes.dcmpl -> new DCmpLInst();
-            case ByteCodes.dcmpg -> new DCmpGInst();
+            case ByteCodes.lcmp -> lcmp;
+            case ByteCodes.fcmpl -> fcmpl;
+            case ByteCodes.fcmpg -> fcmpg;
+            case ByteCodes.dcmpl -> dcmpl;
+            case ByteCodes.dcmpg -> dcmpg;
 
             case ByteCodes.ifeq -> new IfEqInst(dis.readShort());
             case ByteCodes.ifne -> new IfNeInst(dis.readShort());
@@ -448,12 +629,12 @@ public class InstructionReader {
                 yield new LookupSwitchInst(lsOffset, lsDef, lsPairsCnt, lsMap);
             }
 
-            case ByteCodes.ireturn -> new IReturnInst();
-            case ByteCodes.lreturn -> new LReturnInst();
-            case ByteCodes.freturn -> new FReturnInst();
-            case ByteCodes.dreturn -> new DReturnInst();
-            case ByteCodes.areturn -> new AReturnInst();
-            case ByteCodes.return_ -> new ReturnInst();
+            case ByteCodes.ireturn -> ireturn;
+            case ByteCodes.lreturn -> lreturn;
+            case ByteCodes.freturn -> freturn;
+            case ByteCodes.dreturn -> dreturn;
+            case ByteCodes.areturn -> areturn;
+            case ByteCodes.return_ -> return_;
 
             case ByteCodes.getstatic -> new GetstaticInst(dis.readUnsignedShort());
             case ByteCodes.putstatic -> new PutstaticInst(dis.readUnsignedShort());
@@ -475,9 +656,9 @@ public class InstructionReader {
             case ByteCodes.new_ -> new NewInst(dis.readUnsignedShort());
             case ByteCodes.newarray -> new NewArrayInst(dis.readUnsignedByte());
             case ByteCodes.anewarray -> new ANewArrayInst(dis.readUnsignedShort());
-            case ByteCodes.arraylength -> new ArrayLengthInst();
+            case ByteCodes.arraylength -> arraylength;
 
-            case ByteCodes.athrow -> new AThrowInst();
+            case ByteCodes.athrow -> athrow;
 
             case ByteCodes.checkcast -> {
                 var i = dis.readUnsignedShort();
@@ -518,7 +699,7 @@ public class InstructionReader {
             // jsr_w, 同 jsr, 忽略
             case ByteCodes.jsr_w -> throw new UnsupportedOperationException("jsr_w");
 
-            case ByteCodes.invokenative -> new InvokenativeInst();
+            case ByteCodes.invokenative -> invokenative;
 
             default -> null;
         };

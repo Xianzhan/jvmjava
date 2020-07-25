@@ -10,7 +10,6 @@ import com.github.xianzhan.jvmjava.java.runtime.heap.JMethod;
  */
 public class Frame {
 
-    private       Frame        lower;
     private final LocalVars    localVars;
     private final OperandStack operandStack;
     private final JThread      thread;
